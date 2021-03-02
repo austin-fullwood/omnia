@@ -43,7 +43,7 @@ app.get('/test', (req, res) => {
     res.sendFile(__dirname + '/test.html')
 })
 
-app.post('/register', (req, res) => {
+app.post('/user/register', (req, res) => {
     let json = req.body
     email = json.email
     password = json.password
@@ -71,7 +71,7 @@ app.post('/register', (req, res) => {
         });
 })
 
-app.post('/signin', (req, res) => {
+app.post('/user/signin', (req, res) => {
     let json = req.body
     email = json.email
     password = json.password
@@ -95,7 +95,7 @@ app.post('/signin', (req, res) => {
         });
 })
 
-app.post('/user', (req, res) => {
+app.post('/user/data', (req, res) => {
     let json = req.body
     token = json.token
     email = json.email
