@@ -8,7 +8,6 @@ import urllib
 client = MongoClient()
 
 
-client = MongoClient('localhost', 27017)
 client = pymongo.MongoClient("mongodb+srv://omnia:greencomputing@cluster0.g1kbr.mongodb.net/omnia?retryWrites=true&w=majority")
 db = client.omnia
 
