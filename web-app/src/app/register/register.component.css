@@ -1,0 +1,114 @@
+.page {
+  padding-top: 60px;
+}
+
+.register-card {
+  width: 600px;
+  margin: auto;
+}
+
+mat-hint {
+  color: red;
+}
+
+.main-div {
+  padding: 40px 45px;
+  display: grid;
+  grid-template-columns: 50% 20% 30%;
+  grid-template-rows: auto auto auto auto auto auto auto auto auto 15px;
+  grid-template-areas:
+    "logo logo logo"
+    "create-account-label create-account-label create-account-label"
+    "first-name-form last-name-form last-name-form"
+    "email email email"
+    "password confirm-password confirm-password"
+    "hide-password-checkbox hide-password-checkbox hide-password-checkbox"
+    "address address address"
+    "city state zipcode"
+    "sign-in-link create-account-button create-account-button"
+    "error-hint error-hint error-hint";
+  justify-items: center;
+  column-gap: 15px;
+}
+
+.hide-password-checkbox {
+  grid-area: hide-password-checkbox;
+  justify-self: start;
+  align-self: center;
+  padding-bottom: 10px;
+}
+
+.logo {
+  grid-area: logo;
+  color: #4050b5;
+}
+
+.create-account-label {
+  grid-area: create-account-label;
+}
+
+.first-name-form {
+  grid-area: first-name-form;
+  width:100%;
+}
+
+.last-name-form {
+  grid-area: last-name-form;
+  width:100%;
+}
+
+.email-form {
+  grid-area: email;
+  width:100%;
+}
+
+.password-form {
+  grid-area: password;
+  width: 100%;
+}
+
+.confirm-password-form {
+  grid-area: confirm-password;
+  width: 100%;
+}
+
+.address-form {
+  grid-area: address;
+  width: 100%;
+}
+
+.city-form {
+  grid-area: city;
+  width: 100%;
+}
+
+.state-form {
+  grid-area: state;
+  width: 100%;
+}
+
+.zipcode-form {
+  grid-area: zipcode;
+  width: 100%;
+}
+
+.sign-in-link-p {
+  grid-area: sign-in-link;
+  align-self: center;
+  justify-self: start;
+  margin: 0px;
+}
+
+.sign-in-link-a {
+  text-decoration: none;
+}
+
+.create-account-button {
+  grid-area: create-account-button;
+  justify-self: end;
+}
+
+.error-hint {
+  grid-area: error-hint;
+  color: red;
+}
