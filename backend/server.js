@@ -6,6 +6,9 @@ const app = express();
 var firebase = require("firebase/app");
 require("firebase/auth");
 
+/*CORS stands for Cross Origin Resource Sharing and allows modern web browsers to be able to send AJAX requests and receive HTTP responses for resource from other domains other that the domain serving the client side application.*/
+const cors = require('cors');
+
 var db = null
 var users = null
 var bills = null
@@ -18,14 +21,11 @@ MongoClient.connect('mongodb+srv://omnia:greencomputing@cluster0.g1kbr.mongodb.n
         users = db.collection('users')
         bills = db.collection('bills')
     })
-    .catch(error => console.error(error))
+    .catch(error => console.error(error));
 
-    
-app.listen(3000, function () {
-    console.log('listening on 3000')
-})
-
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(cors());
 
 //CRUD Handlers
 app.get('/', (req, res) => {
@@ -44,10 +44,9 @@ app.get('/test', (req, res) => {
 })
 
 app.post('/register', (req, res) => {
-    let json = req.body
-    email = json.email
-    password = json.password
-
+    let json = req.body;
+    email = json.email;
+    password = json.password;
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
             // Signed in 
@@ -117,3 +116,7 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+
+app.listen(3000, function () {
+    console.log('listening on 3000');
+});

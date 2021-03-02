@@ -25,21 +25,14 @@ export class AuthService {
   }
 
   public login(email: string, password: string): Observable<any> {
-    console.log('Email:', email);
-    console.log('Password:', password);
-    return new Observable<any>(subscriber => {
-      subscriber.next('pizza');
-    });
-    /*
     return this.http.post<any>('http://localhost:3000/login', { email, password })
       .pipe(map(user => {
-        if(user && user.token) {
+        if (user && user.token) {
           localStorage.setItem('currentUser', JSON.stringify(user));
           this.currentUserSubject.next(user);
         }
         return user;
       }));
-     */
   }
 
   public logout(): void {
@@ -48,21 +41,14 @@ export class AuthService {
   }
 
   public register(user: User): Observable<any> {
-    console.log(user);
-    return new Observable<any>(subscriber => {
-      subscriber.next('pizza');
-      this.currentUserSubject.next(user);
-    });
-    /*
     return this.http.post<User>('http://localhost:3000/register', user)
-      .pipe(map(user => {
-        if (user && user.token) {
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          this.currentUserSubject.next(user);
-         }
-         return user;
+      .pipe(map(returnedUser => {
+        if (returnedUser && returnedUser.token) {
+          localStorage.setItem('currentUser', JSON.stringify(returnedUser));
+          this.currentUserSubject.next(returnedUser);
+        }
+        return returnedUser;
      }));
-     */
     // TODO: automatically login user if they register
   }
 }
