@@ -9,10 +9,10 @@ client = MongoClient()
 
 
 client = MongoClient('localhost', 27017)
-realClient = MongoClient(host="mongodb+srv://sharonj7%40vt.edu:SystemsCapstone21@cluster0.g1kbr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority") #connect to db
-db = realClient.database
+client = pymongo.MongoClient("mongodb+srv://omnia:greencomputing@cluster0.g1kbr.mongodb.net/omnia?retryWrites=true&w=majority")
+db = client.omnia
 
-posts = db.posts
+posts = db.bills
 
 
 
