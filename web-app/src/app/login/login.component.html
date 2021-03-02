@@ -1,0 +1,35 @@
+<div class="page">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <mat-card class="login-card">
+      <div class="main-div">
+        <h1 class="logo">Omnia</h1>
+        <h2 class="sign-in-label">Sign In</h2>
+        <mat-form-field appearance="fill" class="email-form" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email">
+          <mat-hint *ngIf="submitted && f.email.errors">
+            <mat-hint *ngIf="f.email.errors.required">Required</mat-hint>
+            <mat-hint *ngIf="f.email.errors.email">Invalid email</mat-hint>
+          </mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="password-form">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-hint *ngIf="submitted && f.password.errors">
+            <mat-hint *ngIf="f.password.errors.required">Required</mat-hint>
+          </mat-hint>
+        </mat-form-field>
+        <p class="create-account-link-p"><a routerLink="/register" class="create-account-link-a">Create Account</a></p>
+        <button mat-flat-button color="primary" class="sign-in-button" [disabled]="this.loading">
+          Sign In
+        </button>
+        <mat-hint class="error-hint" *ngIf="this.error !== ''">
+          {{this.error}}
+        </mat-hint>
+      </div>
+    </mat-card>
+  </form>
+</div>

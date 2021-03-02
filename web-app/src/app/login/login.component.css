@@ -1,0 +1,63 @@
+.page {
+  padding-top: 140px;
+}
+
+.login-card {
+  width: 500px;
+  margin: auto;
+}
+
+.main-div {
+  padding: 40px 45px;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: auto auto auto auto auto 15px;
+  grid-template-areas:
+    "logo logo"
+    "sign-in-label sign-in-label"
+    "email email"
+    "password password"
+    "create-account sign-in"
+    "error-hint error-hint";
+  justify-items: center;
+}
+
+.logo {
+  grid-area: logo;
+  color: #4050b5;
+}
+
+.sign-in-label {
+  grid-area: sign-in-label;
+}
+
+.email-form {
+  grid-area: email;
+  width:100%;
+}
+
+.password-form {
+  grid-area: password;
+  width: 100%;
+}
+
+.create-account-link-p {
+  grid-area: create-account;
+  align-self: center;
+  justify-self: start;
+  margin: 0px;
+}
+
+.create-account-link-a {
+  text-decoration: none;
+}
+
+.sign-in-button {
+  grid-area: sign-in;
+  justify-self: end;
+}
+
+.error-hint {
+  grid-area: error-hint;
+  color: red;
+}

@@ -1,0 +1,89 @@
+<div class="page">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <mat-card class="register-card">
+      <div class="main-div">
+        <h1 class="logo">Omnia</h1>
+        <h2 class="create-account-label">Sign In</h2>
+        <mat-form-field appearance="fill" class="first-name-form">
+          <mat-label>First Name</mat-label>
+          <input matInput type="text" formControlName="firstName" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
+          <mat-hint *ngIf="submitted && f.firstName.errors">
+            <mat-hint *ngIf="f.firstName.errors.required">Required</mat-hint>
+            <mat-hint *ngIf="f.firstName.errors.pattern">Illegal characters</mat-hint>
+          </mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="last-name-form">
+          <mat-label>Last Name</mat-label>
+          <input matInput type="text" formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
+          <mat-hint *ngIf="submitted && f.lastName.errors">
+            <mat-hint *ngIf="f.lastName.errors.required">Required</mat-hint>
+            <mat-hint *ngIf="f.lastName.errors.pattern">Illegal characters</mat-hint>
+          </mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="email-form">
+          <mat-label>Email</mat-label>
+          <input matInput type="text" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+          <mat-hint *ngIf="submitted && f.email.errors">
+            <mat-hint *ngIf="f.email.errors.required">Required</mat-hint>
+            <mat-hint *ngIf="f.email.errors.email">Not valid</mat-hint>
+          </mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="password-form">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword; $event.preventDefault()" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-hint *ngIf="submitted && f.password.errors">
+            <mat-hint *ngIf="f.password.errors.required">Required</mat-hint>
+            <mat-hint *ngIf="f.password.errors.minlength">Must be at least 6 characters</mat-hint>
+          </mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="confirm-password-form">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword" [ngClass]="{ 'is-invalid': submitted && registerForm.hasError('notSame') }">
+          <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword; $event.preventDefault()" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirmPassword">
+            <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-hint *ngIf="submitted && registerForm.hasError('notSame')">Doesn't match password</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="address-form">
+          <mat-label>Address</mat-label>
+          <input matInput formControlName="address" [ngClass]="{ 'is-invalid': submitted && f.address.errors }">
+          <mat-hint *ngIf="submitted && f.address.errors">
+            <mat-hint *ngIf="f.address.errors.required">Required</mat-hint>
+          </mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="city-form">
+          <mat-label>City</mat-label>
+          <input matInput formControlName="city" [ngClass]="{ 'is-invalid': submitted && f.city.errors }">
+          <mat-hint *ngIf="submitted && f.city.errors">
+            <mat-hint *ngIf="f.city.errors.required">Required</mat-hint>
+            <mat-hint *ngIf="f.city.errors.pattern">Invalid characters</mat-hint>
+          </mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="state-form">
+          <mat-label>State</mat-label>
+          <input matInput formControlName="state">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="zipcode-form">
+          <mat-label>Zipcode</mat-label>
+          <input matInput maxlength="5" formControlName="zip" [ngClass]="{ 'is-invalid': submitted && f.zip.errors }">
+          <mat-hint *ngIf="submitted && f.zip.errors">
+            <mat-hint *ngIf="f.zip.errors.required">Required</mat-hint>
+            <mat-hint *ngIf="f.zip.errors.pattern">Can only be numbers</mat-hint>
+            <mat-hint *ngIf="f.zip.errors.minLength">Must be 5 digits</mat-hint>
+            <mat-hint *ngIf="f.zip.errors.maxLength">Must be 5 digits</mat-hint>
+          </mat-hint>
+        </mat-form-field>
+        <p class="sign-in-link-p"><a routerLink="/login" class="sign-in-link-a">Sign In Instead</a></p>
+        <button mat-flat-button color="primary" class="create-account-button" [disabled]="this.loading">
+          Create Account
+        </button>
+        <mat-hint class="error-hint" *ngIf="this.error !== ''">
+          {{ this.error }}
+        </mat-hint>
+      </div>
+    </mat-card>
+  </form>
+</div>
