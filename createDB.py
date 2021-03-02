@@ -32,8 +32,8 @@ for i in range(20):
         'url': url,
         'overview': '',
         'introducedDate': intro_date,
-        'pros': [],
-        'cons': []
+        'pros': '',
+        'cons': ''
     }
     posts.insert_one(post)
 
