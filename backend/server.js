@@ -99,11 +99,10 @@ app.post('/user/data', (req, res) => {
     let json = req.body
     token = json.token
     email = json.email
-    users.findOne({}, function(err, result) {
+    users.findOne({"email":email}, function(err, result) {
         if (err) throw err;
         res.send(result)
     });
-
 })
 
 var firebaseConfig = {
