@@ -14,7 +14,6 @@ export class AuthService {
   public currentUser: Observable<User>;
 
   constructor(private http: HttpClient) {
-    console.log(localStorage.getItem('currentUser'));
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
 
     this.currentUser = this.currentUserSubject.asObservable();
@@ -25,8 +24,9 @@ export class AuthService {
   }
 
   public login(email: string, password: string): Observable<any> {
-    return this.http.post<any>('http://localhost:3000/login', { email, password })
+    return this.http.post<any>('http://localhost:3000/user/signin', { email, password })
       .pipe(map(user => {
+        user.email = email;
         if (user && user.token) {
           localStorage.setItem('currentUser', JSON.stringify(user));
           this.currentUserSubject.next(user);
@@ -41,14 +41,25 @@ export class AuthService {
   }
 
   public register(user: User): Observable<any> {
-    return this.http.post<User>('http://localhost:3000/register', user)
+    return this.http.post<User>('http://localhost:3000/user/register', user)
       .pipe(map(returnedUser => {
         if (returnedUser && returnedUser.token) {
+          returnedUser.email = user.email;
           localStorage.setItem('currentUser', JSON.stringify(returnedUser));
           this.currentUserSubject.next(returnedUser);
         }
         return returnedUser;
      }));
-    // TODO: automatically login user if they register
+  }
+
+  public getUser(user: User): Observable<any> {
+    return this.http.post<User>('http://localhost:3000/user/data', user)
+      .pipe(map(returnedUser => {
+        if (returnedUser) {
+          returnedUser.token = user.token;
+          localStorage.setItem('currentUser', JSON.stringify(returnedUser));
+        }
+        return returnedUser;
+      }));
   }
 }

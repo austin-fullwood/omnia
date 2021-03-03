@@ -4,6 +4,7 @@ import {AuthService} from '../_services/auth.service';
 import {first} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {log} from 'util';
 
 @Component({
   selector: 'app-login',
@@ -49,16 +50,27 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.registerForm.get('email').value, this.registerForm.get('password').value)
       .pipe(first())
       .subscribe(
-        data => {
-          this.router.navigate(['/']);
+        loginInfo => {
+          this.authService.getUser(loginInfo)
+            .pipe(first())
+            .subscribe(
+              userInfo => {
+                this.router.navigate(['/']);
 
-          this.notif.showNotif('Logged in.', 'confirmation');
-          console.log(data);
+                this.notif.showNotif('Logged in: ' + userInfo.firstName, 'confirmation');
+                console.log(userInfo);
+              },
+              error => {
+                this.error = error;
+                this.loading = false;
+                console.log('Error:', error);
+              }
+            );
         },
         error => {
           this.error = error;
           this.loading = false;
-          console.log('Error', error);
+          console.log('Error:', error);
         });
   }
 }

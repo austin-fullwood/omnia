@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../_services/auth.service';
 import {Router} from '@angular/router';
 import {first} from 'rxjs/operators';
+import {User} from '../_models/user';
 
 @Component({
   selector: 'app-register',
@@ -67,15 +68,26 @@ export class RegisterComponent implements OnInit {
     this.authService.register(this.registerForm.value)
       .pipe(first())
       .subscribe(
-        data => {
-          this.router.navigate(['/']);
-          this.notif.showNotif('Successfully registered user.', 'confirmation');
-          console.log(data);
+        registerInfo => {
+          this.authService.getUser(registerInfo)
+            .pipe(first())
+            .subscribe(
+              userInfo => {
+                this.router.navigate(['/']);
+                this.notif.showNotif('Successfully registered: ' + userInfo.firstName, 'confirmation');
+                console.log(userInfo);
+              },
+              error => {
+                this.error = error;
+                console.log('Error:', error);
+                this.loading = false;
+              }
+            );
         },
         error => {
           this.error = error;
+          console.log('Error:', error);
           this.loading = false;
-          console.log(error);
         }
       );
   }

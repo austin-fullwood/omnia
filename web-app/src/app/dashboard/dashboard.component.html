@@ -1,1 +1,11 @@
-<p>dashboard works!</p>
+<mat-toolbar color="primary">
+  <span class="toolbar-logo">Omnia</span>
+  <span class="toolbar-spacer"></span>
+  <button mat-button class="user-button" [matMenuTriggerFor]="userMenu">
+    {{ this.currentUser.firstName }} {{ this.currentUser.lastName }}
+  </button>
+  <mat-menu #userMenu="matMenu" xPosition="before">
+    <button mat-menu-item>Settings</button>
+    <button mat-menu-item (click)="this.logout()">Logout</button>
+  </mat-menu>
+</mat-toolbar>
