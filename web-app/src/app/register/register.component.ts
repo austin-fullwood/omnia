@@ -4,7 +4,6 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../_services/auth.service';
 import {Router} from '@angular/router';
 import {first} from 'rxjs/operators';
-import {User} from '../_models/user';
 
 @Component({
   selector: 'app-register',
@@ -13,52 +12,55 @@ import {User} from '../_models/user';
 })
 export class RegisterComponent implements OnInit {
 
-  private registerForm: FormGroup;
-  private submitted = false;
-  private loading = false;
-  private error = '';
+  public registerForm = this.formBuilder.group({
+    firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+    lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+    confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+    address: ['', Validators.required],
+    city: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+    state: [{value: 'VA', disabled: true}],
+    zip: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(5), Validators.maxLength(5)]]
+  }, {
+    validators: this.checkPasswords
+  });
 
-  private hidePassword = true;
-  private hideConfirmPassword = true;
+  public submitted = false;
+  public loading = false;
+  public error = '';
+
+  public hidePassword = true;
+  public hideConfirmPassword = true;
 
   constructor(private notif: NotificationService,
               private formBuilder: FormBuilder,
               private authService: AuthService,
               private router: Router
               ) {
-    if (this.authService.currentUserValue) {
+    if (this.authService.isLoggedIn()) {
       this.router.navigate(['/']);
     }
   }
 
   ngOnInit(): void {
-    this.registerForm = this.formBuilder.group({
-      firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
-      lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
-      address: ['', Validators.required],
-      city: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
-      state: [{value: 'VA', disabled: true}],
-      zip: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(5), Validators.maxLength(5)]]
-    }, {
-      validators: this.checkPasswords
-    });
   }
 
   private checkPasswords(group: FormGroup): any {
-    const password = group.get('password').value;
-    const confirmPassword = group.get('confirmPassword').value;
+    const groupPassword = group.get('password');
+    const groupConfirmPassword = group.get('confirmPassword');
+    if (groupPassword === null || groupConfirmPassword === null) {
+      return null;
+    }
 
-    return password === confirmPassword ? null : {notSame: true};
+    return groupPassword.value === groupConfirmPassword.value ? null : {notSame: true};
   }
 
-  get f() {
+  get f(): any {
     return this.registerForm.controls;
   }
 
-  private onSubmit(): void {
+  public onSubmit(): void {
     this.submitted = true;
     if (this.registerForm.invalid) {
       return;

@@ -1,5 +1,5 @@
 export class Bill {
-  billId: string;
-  voteDate: Date;
-  votedYes: boolean;
+  billId = '';
+  voteDate = new Date();
+  votedYes = false;
 }

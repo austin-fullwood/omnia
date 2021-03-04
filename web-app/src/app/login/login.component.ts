@@ -4,7 +4,6 @@ import {AuthService} from '../_services/auth.service';
 import {first} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {log} from 'util';
 
 @Component({
   selector: 'app-login',
@@ -13,41 +12,46 @@ import {log} from 'util';
 })
 export class LoginComponent implements OnInit {
 
-  private registerForm: FormGroup;
-  private submitted = false;
-  private loading = false;
-  private error = '';
+  public registerForm = this.formBuilder.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required]
+  });
+  public submitted = false;
+  public loading = false;
+  public error = '';
 
-  private hidePassword = true;
+  public hidePassword = true;
 
   constructor(private notif: NotificationService,
               private formBuilder: FormBuilder,
               private authService: AuthService,
               private router: Router) {
-    if (this.authService.currentUserValue) {
+    if (this.authService.isLoggedIn()) {
       this.router.navigate(['/']);
     }
   }
 
   ngOnInit(): void {
-    this.registerForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
-    });
   }
 
-  get f() {
+  get f(): any {
     return this.registerForm.controls;
   }
 
-  private onSubmit(): void {
+  public onSubmit(): void {
     this.submitted = true;
     if (this.registerForm.invalid) {
       return;
     }
 
+    const registerFormEmail = this.registerForm.get('email');
+    const registerFormPassword = this.registerForm.get('password');
+    if (registerFormEmail === null || registerFormPassword === null) {
+      return;
+    }
+
     this.loading = true;
-    this.authService.login(this.registerForm.get('email').value, this.registerForm.get('password').value)
+    this.authService.login(registerFormEmail.value, registerFormPassword.value)
       .pipe(first())
       .subscribe(
         loginInfo => {

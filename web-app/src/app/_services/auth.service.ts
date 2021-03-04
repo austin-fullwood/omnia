@@ -14,9 +14,14 @@ export class AuthService {
   public currentUser: Observable<User>;
 
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-
-    this.currentUser = this.currentUserSubject.asObservable();
+    const localCurrentUser = localStorage.getItem('currentUser');
+    if (localCurrentUser !== null) {
+      this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localCurrentUser));
+      this.currentUser = this.currentUserSubject.asObservable();
+    } else {
+      this.currentUserSubject = new BehaviorSubject<User>(new User());
+      this.currentUser = this.currentUserSubject.asObservable();
+    }
   }
 
   public get currentUserValue(): User {
@@ -37,7 +42,7 @@ export class AuthService {
 
   public logout(): void {
     localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
+    this.currentUserSubject.next(new User());
   }
 
   public register(user: User): Observable<any> {
@@ -61,5 +66,9 @@ export class AuthService {
         }
         return returnedUser;
       }));
+  }
+
+  public isLoggedIn() {
+    return this.currentUserValue.token;
   }
 }

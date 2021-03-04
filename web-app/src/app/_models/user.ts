@@ -1,16 +1,11 @@
 import { Bill } from './bill';
 
 export class User {
-  firstName: string;
-  lastName: string;
-  email: string;
-  location: {
-    address: string;
-    city: string;
-    state: string;
-    zip: number;
-  };
-  bills: Bill[];
-  id: string;
-  token?: string;
+  public firstName?: string;
+  public lastName?: string;
+  public email?: string;
+  public location?: Location;
+  public bills?: Bill[];
+  public id?: string;
+  public token?: string;
 }

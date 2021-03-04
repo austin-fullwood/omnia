@@ -10,7 +10,7 @@ import {User} from '../_models/user';
 })
 export class DashboardComponent implements OnInit {
 
-  currentUser: User;
+  public currentUser: User;
 
   constructor(private authService: AuthService,
               private router: Router) {
@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  private logout(): void {
+  public logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
