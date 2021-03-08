@@ -105,6 +105,17 @@ app.post('/user/data', (req, res) => {
     });
 })
 
+app.get('/api/upcomingBills', (req, res) => {
+    let json = req.body
+    token = json.token
+    email = json.email
+    bills.find({}).toArray(function(err, result) {
+        if (err) throw err;
+        //console.log(result);
+        res.send(result)
+      });
+})
+
 var firebaseConfig = {
     apiKey: "AIzaSyBq4Z7zkRzESTz5snCeVzvXrwC6L818z_w",
     authDomain: "omnia-ba948.firebaseapp.com",
