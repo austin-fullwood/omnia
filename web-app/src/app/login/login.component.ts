@@ -12,53 +12,69 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
-  private registerForm: FormGroup;
-  private submitted = false;
-  private loading = false;
-  private error = '';
+  public registerForm = this.formBuilder.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required]
+  });
+  public submitted = false;
+  public loading = false;
+  public error = '';
 
-  private hidePassword = true;
+  public hidePassword = true;
 
   constructor(private notif: NotificationService,
               private formBuilder: FormBuilder,
               private authService: AuthService,
               private router: Router) {
-    if (this.authService.currentUserValue) {
+    if (this.authService.isLoggedIn()) {
       this.router.navigate(['/']);
     }
   }
 
   ngOnInit(): void {
-    this.registerForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
-    });
   }
 
-  get f() {
+  get f(): any {
     return this.registerForm.controls;
   }
 
-  private onSubmit(): void {
+  public onSubmit(): void {
     this.submitted = true;
     if (this.registerForm.invalid) {
       return;
     }
 
+    const registerFormEmail = this.registerForm.get('email');
+    const registerFormPassword = this.registerForm.get('password');
+    if (registerFormEmail === null || registerFormPassword === null) {
+      return;
+    }
+
     this.loading = true;
-    this.authService.login(this.registerForm.get('email').value, this.registerForm.get('password').value)
+    this.authService.login(registerFormEmail.value, registerFormPassword.value)
       .pipe(first())
       .subscribe(
-        data => {
-          this.router.navigate(['/']);
+        loginInfo => {
+          this.authService.getUser(loginInfo)
+            .pipe(first())
+            .subscribe(
+              userInfo => {
+                this.router.navigate(['/']);
 
-          this.notif.showNotif('Logged in.', 'confirmation');
-          console.log(data);
+                this.notif.showNotif('Logged in: ' + userInfo.firstName, 'confirmation');
+                console.log(userInfo);
+              },
+              error => {
+                this.error = error;
+                this.loading = false;
+                console.log('Error:', error);
+              }
+            );
         },
         error => {
           this.error = error;
           this.loading = false;
-          console.log('Error', error);
+          console.log('Error:', error);
         });
   }
 }

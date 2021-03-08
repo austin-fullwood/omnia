@@ -14,10 +14,14 @@ export class AuthService {
   public currentUser: Observable<User>;
 
   constructor(private http: HttpClient) {
-    console.log(localStorage.getItem('currentUser'));
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-
-    this.currentUser = this.currentUserSubject.asObservable();
+    const localCurrentUser = localStorage.getItem('currentUser');
+    if (localCurrentUser !== null) {
+      this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localCurrentUser));
+      this.currentUser = this.currentUserSubject.asObservable();
+    } else {
+      this.currentUserSubject = new BehaviorSubject<User>(new User());
+      this.currentUser = this.currentUserSubject.asObservable();
+    }
   }
 
   public get currentUserValue(): User {
@@ -25,44 +29,46 @@ export class AuthService {
   }
 
   public login(email: string, password: string): Observable<any> {
-    console.log('Email:', email);
-    console.log('Password:', password);
-    return new Observable<any>(subscriber => {
-      subscriber.next('pizza');
-    });
-    /*
-    return this.http.post<any>('http://localhost:3000/login', { email, password })
+    return this.http.post<any>('http://localhost:3000/user/signin', { email, password })
       .pipe(map(user => {
-        if(user && user.token) {
+        user.email = email;
+        if (user && user.token) {
           localStorage.setItem('currentUser', JSON.stringify(user));
           this.currentUserSubject.next(user);
         }
         return user;
       }));
-     */
   }
 
   public logout(): void {
     localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
+    this.currentUserSubject.next(new User());
   }
 
   public register(user: User): Observable<any> {
-    console.log(user);
-    return new Observable<any>(subscriber => {
-      subscriber.next('pizza');
-      this.currentUserSubject.next(user);
-    });
-    /*
-    return this.http.post<User>('http://localhost:3000/register', user)
-      .pipe(map(user => {
-        if (user && user.token) {
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          this.currentUserSubject.next(user);
-         }
-         return user;
+    return this.http.post<User>('http://localhost:3000/user/register', user)
+      .pipe(map(returnedUser => {
+        if (returnedUser && returnedUser.token) {
+          returnedUser.email = user.email;
+          localStorage.setItem('currentUser', JSON.stringify(returnedUser));
+          this.currentUserSubject.next(returnedUser);
+        }
+        return returnedUser;
      }));
-     */
-    // TODO: automatically login user if they register
+  }
+
+  public getUser(user: User): Observable<any> {
+    return this.http.post<User>('http://localhost:3000/user/data', user)
+      .pipe(map(returnedUser => {
+        if (returnedUser) {
+          returnedUser.token = user.token;
+          localStorage.setItem('currentUser', JSON.stringify(returnedUser));
+        }
+        return returnedUser;
+      }));
+  }
+
+  public isLoggedIn() {
+    return this.currentUserValue.token;
   }
 }
