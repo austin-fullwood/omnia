@@ -64,8 +64,6 @@ app.post('/user/register', (req, res) => {
         .catch((error) => {
             var errorCode = error.code;
             var errorMessage = error.message;
-            console.log(errorCode)
-            console.log(errorMessage)
             res.send(errorMessage)
         });
 })
@@ -88,8 +86,6 @@ app.post('/user/signin', (req, res) => {
         .catch((error) => {
             var errorCode = error.code;
             var errorMessage = error.message;
-            console.log(errorCode)
-            console.log(errorMessage)
             res.send(errorMessage)
         });
 })
@@ -98,11 +94,82 @@ app.post('/user/data', (req, res) => {
     let json = req.body
     token = json.token
     email = json.email
-    users.findOne({}, function(err, result) {
+    users.findOne({"email":email}, function(err, result) {
         if (err) throw err;
         res.send(result)
     });
+})
 
+app.post('/api/upcomingBills', (req, res) => {
+    let json = req.body
+    token = json.token
+    email = json.email
+    users.findOne({"email":email}, function(err, result) {
+        if (err) throw err;
+        if(!result.bills){
+            bills.find({}).toArray(function(err, billList) {
+                if (err) throw err;
+                res.send(billList)
+            });
+        }
+        else{
+            billList = []
+            for(billIndex in result.bills){
+                billId = result.bills[billIndex].billId
+                billList.push(billId)
+            }
+            answer = []
+            bills.find({"bill_id":{$nin: billList}}).each(function(err,doc){
+                answer.push(doc)
+                if(doc == undefined){
+                    answer.splice(-1,1)
+                    res.send(answer)
+                }
+            });
+        }
+    });
+})
+
+app.post('/api/pastBills', (req, res) => {
+    let json = req.body
+    token = json.token
+    email = json.email
+    users.findOne({"email":email}, function(err, result) {
+        if (err) throw err;
+        if(!result.bills){
+            answer = []
+            res.send(answer)
+        }
+        else{
+            var promises = []
+            for(billIndex in result.bills){
+                billId = result.bills[billIndex].billId
+                promises.push(bills.findOne({"bill_id":billId}))
+            }
+            Promise.all(promises).then(result => {
+                res.send(result)
+            });
+        }
+    });
+})
+
+app.post('/api/billVote', (req, res) => {
+    let json = req.body
+    token = json.token
+    email = json.email
+    billId = json.billId
+    votedYes = json.votedYes
+    billJson = {
+        "billId":billId,
+        "voteDate": new Date(Date.now()),
+        "votedYes": votedYes
+    }
+    users.updateOne({"email":email}, {$push: {"bills": billJson}}, function(err,doc) {
+        if (err) { throw err; }
+        else { 
+            res.sendStatus(200)
+        }
+      });  
 })
 
 var firebaseConfig = {
