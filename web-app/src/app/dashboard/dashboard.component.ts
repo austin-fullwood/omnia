@@ -10,11 +10,12 @@ import {User} from '../_models/user';
 })
 export class DashboardComponent implements OnInit {
 
-  public currentUser: User;
+  public currentUser = new User();
 
   constructor(private authService: AuthService,
               private router: Router) {
     this.authService.currentUser.subscribe(x => this.currentUser = x);
+    console.log(this.currentUser);
   }
 
   ngOnInit(): void {
