@@ -8,7 +8,7 @@ import {map} from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class UserService {
 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;

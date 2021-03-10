@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {NotificationService} from '../_services/notification.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthService} from '../_services/auth.service';
+import {UserService} from '../_services/user.service';
 import {Router} from '@angular/router';
 import {first} from 'rxjs/operators';
 
@@ -35,7 +35,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(private notif: NotificationService,
               private formBuilder: FormBuilder,
-              private authService: AuthService,
+              private authService: UserService,
               private router: Router
               ) {
     if (this.authService.isLoggedIn()) {

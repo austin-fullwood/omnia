@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {NotificationService} from '../_services/notification.service';
-import {AuthService} from '../_services/auth.service';
+import {UserService} from '../_services/user.service';
 import {first} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private notif: NotificationService,
               private formBuilder: FormBuilder,
-              private authService: AuthService,
+              private authService: UserService,
               private router: Router) {
     if (this.authService.isLoggedIn()) {
       this.router.navigate(['/']);

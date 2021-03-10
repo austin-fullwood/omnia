@@ -1,0 +1,17 @@
+<mat-card>
+  <div class="mat-card-bill" *ngIf="!this.noUpcomingBills()">
+    <p class="title">{{ this.currentBill.short_title }}</p>
+    <p class="subtitle">{{ this.currentBill.title }}</p>
+    <p class="overview-title">Overview</p>
+    <p class="overview">{{ this.currentBill.overview }}</p>
+    <p class="pros-title">Pros</p>
+    <p class="cons-title">Cons</p>
+    <p class="pros">{{ this.currentBill.pros }}</p>
+    <p class="cons">{{ this.currentBill.cons }}</p>
+    <button mat-button class="yes-button" (click)="this.voteForCurrentBill(true)">Yea</button>
+    <button mat-button class="no-button" (click)="this.voteForCurrentBill(false)">Nay</button>
+  </div>
+  <div class="mat-card-finished" *ngIf="this.noUpcomingBills()">
+    <p class="mat-card-finished-text">All caught up! No more upcoming bills!</p>
+  </div>
+</mat-card>

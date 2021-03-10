@@ -1,0 +1,85 @@
+mat-card {
+  padding: 0px;
+}
+
+.mat-card-bill {
+  padding: 40px 40px 20px 40px;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 30px 80px auto 90px auto 100px auto;
+  grid-template-areas:
+    "title title"
+    "subtitle subtitle"
+    "overview-title overview-title"
+    "overview overview"
+    "pros-title cons-title"
+    "pros cons"
+    "yes-button no-button";
+  column-gap: 15px;
+}
+
+.title {
+  grid-area: title;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.subtitle {
+  grid-area: subtitle;
+  font-style: italic;
+}
+
+.overview-title {
+  grid-area: overview-title;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.overview {
+  grid-area: overview;
+}
+
+.pros-title {
+  grid-area: pros-title;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.cons-title {
+  grid-area: cons-title;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.pros {
+  grid-area: pros;
+}
+
+.cons {
+  grid-area: cons;
+}
+
+.yes-button {
+  grid-area: yes-button;
+  background-color: #8AC443;
+  color: white;
+}
+
+.no-button {
+  grid-area: no-button;
+  background-color: #FE1444;
+  color: white;
+}
+
+.mat-card-finished {
+  height: 460px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mat-card-finished-text {
+  font-weight: bold;
+  font-size: 16px;
+  margin: 0px;
+}

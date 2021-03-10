@@ -12,13 +12,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ErrorInterceptor} from './interceptors/error.interceptor';
 import {AuthenticationInterceptor} from './interceptors/authentication.interceptor';
+import { UpcomingBillsComponent } from './upcomingbills/upcoming-bills.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    UpcomingBillsComponent
   ],
   imports: [
     BrowserModule,

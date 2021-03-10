@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
-import {AuthService} from '../_services/auth.service';
+import {UserService} from '../_services/user.service';
 import {catchError} from 'rxjs/operators';
 import {NotificationService} from '../_services/notification.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-  constructor(private authenticationService: AuthService, private notif: NotificationService) {}
+  constructor(private authenticationService: UserService, private notif: NotificationService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(catchError(err => {
