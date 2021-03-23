@@ -144,10 +144,25 @@ app.post('/api/pastBills', (req, res) => {
             var promises = []
             for(billIndex in result.bills){
                 billId = result.bills[billIndex].billId
+                //console.log(result.bills[billIndex])
+                //temp = bills.findOne({"bill_id":billId})
+                //temp["votedYes"] = result.bills[billIndex].votedYes
+                //temp["voteDate"] = result.bills[billIndex].voteDate
+                //console.log(temp)
                 promises.push(bills.findOne({"bill_id":billId}))
             }
-            Promise.all(promises).then(result => {
-                res.send(result)
+            Promise.all(promises).then(promiseList => {
+                for(var i = 0;i<promiseList.length;i++){
+                    //console.log(result[i]["bill_id"])
+                    for(billIndex in result.bills){
+                        billId = result.bills[billIndex].billId
+                        if(billId == promiseList[i]["bill_id"]){
+                            promiseList[i]["votedYes"] = result.bills[billIndex].votedYes
+                            promiseList[i]["voteDate"] = result.bills[billIndex].voteDate
+                        }
+                    }
+                }
+                res.send(promiseList)
             });
         }
     });
