@@ -55,26 +55,12 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         loginInfo => {
-          this.authService.getUser(loginInfo)
-            .pipe(first())
-            .subscribe(
-              userInfo => {
-                this.router.navigate(['/']);
-
-                this.notif.showNotif('Logged in: ' + userInfo.firstName, 'confirmation');
-                console.log(userInfo);
-              },
-              error => {
-                this.error = error;
-                this.loading = false;
-                console.log('Error:', error);
-              }
-            );
+          this.router.navigate(['/']);
+          this.notif.showNotif('Successfully logged in user.', 'confirmation');
         },
         error => {
           this.error = error;
           this.loading = false;
-          console.log('Error:', error);
         });
   }
 }

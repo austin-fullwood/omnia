@@ -16,10 +16,15 @@ mat-toolbar {
   grid-template-rows: auto auto;
   grid-template-areas:
     "upcomingbills representatives"
-    "search search";
+    "searchpastbills searchpastbills";
   column-gap: 15px;
+  row-gap: 15px;
 }
 
 app-upcoming-bills {
   grid-area: upcomingbills;
+}
+
+app-search-past-bills {
+  grid-area: searchpastbills;
 }

@@ -23,17 +23,31 @@ export class UpcomingBillsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public voteForCurrentBill(voteYes: boolean): void {
-    this.bills = this.bills?.filter(bill => {
-      return bill.bill_id !== this.currentBill.bill_id;
-    });
-
-    if (this.bills) {
-      this.currentBill = this.bills[0];
+  public voteForCurrentBill(votedYes: boolean): void {
+    if (!this.currentBill.bill_id) {
+      this.notifService.showNotif('Could not register vote for current bill', 'error', 2000);
+      return;
     }
 
-    const voteStr = voteYes ? 'Yea' : 'Nay';
-    this.notifService.showNotif('Voted: ' + voteStr, 'complete', 1000);
+    this.billService.setBillVote(this.userService.currentUserValue, this.currentBill.bill_id, votedYes)
+      .subscribe(
+        result => {
+          this.bills = this.bills?.filter(bill => {
+            return bill.bill_id !== this.currentBill.bill_id;
+          });
+
+          if (this.bills) {
+            this.currentBill = this.bills[0];
+          }
+
+          const voteStr = votedYes ? 'Yea' : 'Nay';
+          this.notifService.showNotif('Voted: ' + voteStr, 'complete', 1000);
+        },
+        err => {
+          console.log(err);
+          this.notifService.showNotif(err.toString());
+        }
+      );
   }
 
   private getUpcomingBills(): void {
@@ -41,7 +55,6 @@ export class UpcomingBillsComponent implements OnInit {
       data => {
         this.bills = data;
         this.currentBill = this.bills[0];
-        console.log(this.bills);
       },
       error => {
         this.bills = undefined;

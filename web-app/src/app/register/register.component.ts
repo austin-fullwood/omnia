@@ -71,20 +71,8 @@ export class RegisterComponent implements OnInit {
       .pipe(first())
       .subscribe(
         registerInfo => {
-          this.authService.getUser(registerInfo)
-            .pipe(first())
-            .subscribe(
-              userInfo => {
-                this.router.navigate(['/']);
-                this.notif.showNotif('Successfully registered: ' + userInfo.firstName, 'confirmation');
-                console.log(userInfo);
-              },
-              error => {
-                this.error = error;
-                console.log('Error:', error);
-                this.loading = false;
-              }
-            );
+          this.router.navigate(['/']);
+          this.notif.showNotif('Successfully registered user.', 'confirmation');
         },
         error => {
           this.error = error;

@@ -44,9 +44,16 @@ app.get('/test', (req, res) => {
 })
 
 app.post('/user/register', (req, res) => {
-    let json = req.body
-    email = json.email
-    password = json.password
+    let json = req.body;
+    email = json.email;
+    password = json.password;
+
+    if (users.findOne({"email":email})) {
+        res.status(409);
+        res.send('Email is linked to another user.');
+        return;
+    }
+
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
             // Signed in 
@@ -64,14 +71,15 @@ app.post('/user/register', (req, res) => {
         .catch((error) => {
             var errorCode = error.code;
             var errorMessage = error.message;
+            res.status(errorCode);
             res.send(errorMessage)
         });
 })
 
 app.post('/user/signin', (req, res) => {
     let json = req.body
-    email = json.email
-    password = json.password
+    email = json.email;
+    password = json.password;
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
             // Signed in 
@@ -93,7 +101,6 @@ app.post('/user/signin', (req, res) => {
 app.post('/user/data', (req, res) => {
     let json = req.body
     token = json.token
-    email = json.email
     users.findOne({"email":email}, function(err, result) {
         if (err) throw err;
         res.send(result)
@@ -154,22 +161,23 @@ app.post('/api/pastBills', (req, res) => {
 })
 
 app.post('/api/billVote', (req, res) => {
-    let json = req.body
-    token = json.token
-    email = json.email
-    billId = json.billId
-    votedYes = json.votedYes
+    let json = req.body;
+    token = json.token;
+    email = json.email;
+    billId = json.billId;
+    votedYes = json.votedYes;
     billJson = {
         "billId":billId,
         "voteDate": new Date(Date.now()),
         "votedYes": votedYes
     }
     users.updateOne({"email":email}, {$push: {"bills": billJson}}, function(err,doc) {
-        if (err) { throw err; }
-        else { 
-            res.sendStatus(200)
+        if (err) {
+            throw err;
         }
-      });  
+        res.status(200);
+        res.json({});
+      });
 })
 
 var firebaseConfig = {

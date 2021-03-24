@@ -29,7 +29,7 @@ export class UserService {
   }
 
   public login(email: string, password: string): Observable<any> {
-    return this.http.post<any>('http://localhost:3000/user/signin', { email, password })
+    return this.http.post<any>('https://omnia.ninja/user/signin', { email, password })
       .pipe(map(data => {
         const newUser = this.currentUserValue;
         if (data && data.token) {
@@ -43,6 +43,7 @@ export class UserService {
             this.currentUserSubject.next(data);
           }
         }
+
         return data;
       }));
   }
@@ -53,7 +54,7 @@ export class UserService {
   }
 
   public register(user: User): Observable<any> {
-    return this.http.post<User>('http://localhost:3000/user/register', user)
+    return this.http.post<User>('https://omnia.ninja/user/register', user)
       .pipe(map(data => {
         const newUser = this.currentUserValue;
         if (data && data.token) {
@@ -72,7 +73,7 @@ export class UserService {
   }
 
   public getUser(user: User): Observable<any> {
-    return this.http.post<User>('http://localhost:3000/user/data', user)
+    return this.http.post<User>('https://omnia.ninja/user/data', user)
       .pipe(map(data => {
         const newUser = this.currentUserValue;
         if (data) {
@@ -82,12 +83,13 @@ export class UserService {
             newUser.location = data.location;
             newUser.bills = data.bills;
             newUser.id = data.id;
-            localStorage.setItem('currentUser', JSON.stringify(newUser));
+
+            return newUser;
           } else {
-            localStorage.setItem('currentUser', JSON.stringify(data));
+            return data;
           }
         }
-        return data;
+        return null;
       }));
   }
 

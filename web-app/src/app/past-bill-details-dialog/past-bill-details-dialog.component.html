@@ -1,0 +1,20 @@
+<div class="details">
+  <p class="details__short-title">{{ this.bill.short_title }}</p>
+  <p class="details__title">{{ this.bill.title }}</p>
+  <p class="details__overview-title">Overview</p>
+  <p class="details__overview">{{ this.bill.overview }}</p>
+  <p class="details__pros-title">Pros</p>
+  <p class="details__cons-title">Cons</p>
+  <p class="details__pros">{{ this.bill.pros }}</p>
+  <p class="details__cons">{{ this.bill.cons }}</p>
+  <p class="details__user-vote-title">Your Vote</p>
+  <p class="details__user-vote" [style.color]="this.bill.votedYes ? 'green' : 'red'">Voted: {{ this.bill.votedYes ? 'Yay' : 'Nay' }}</p>
+  <p class="details__user-vote-date">Date: {{ this.bill.voteDate | date: 'longDate' }}</p>
+  <p class="details__rep-vote-title">Representative Vote</p>
+  <p class="details__rep-vote" [style.color]="(this.repVotedYes !== undefined) ? (this.repVotedYes ? 'green' : 'red') : 'black'">
+    Voted: {{ (this.repVotedYes !== undefined) ? (this.repVotedYes ? 'Yay' : 'Nay') : 'Waiting' }}
+  </p>
+  <p class="details__rep-vote-date">
+    Date: {{ (this.repVoteDate !== undefined) ? (this.repVoteDate | date: 'longDate') : 'Waiting' }}
+  </p>
+</div>

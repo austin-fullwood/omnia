@@ -1,0 +1,24 @@
+<mat-card>
+  <div class="search-past-bills">
+    <p class="search-past-bills__title">Past Bills</p>
+
+    <mat-form-field class="search-past-bills__search-bar" appearance="outline">
+      <mat-label>Search</mat-label>
+      <input matInput type="text" (change)="this.search()" [(ngModel)]="this.searchText" autocomplete="off">
+      <button mat-button matSuffix mat-icon-button aria-label="Search" (click)="this.search()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <div *ngFor="let bill of this.currentBills">
+      <app-past-bill [bill]="bill"></app-past-bill>
+    </div>
+  </div>
+
+  <mat-paginator #paginator
+    *ngIf="this.currentBills !== undefined && this.currentBills.length > 0"
+    [length]="(this.searchedBills !== undefined) ? this.searchedBills.length : 0"
+    [pageSize]="10"
+    (page)="this.changePage($event)">
+  </mat-paginator>
+</mat-card>
