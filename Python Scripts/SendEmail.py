@@ -12,7 +12,8 @@ else:
 
 
 #pull info for bill here
-receiver = "emg412@vt.edu"
+receiver1 = "FakeMarkWarner@gmail.com"
+receiver2 = "FakeTimCaine@gmail.com"
 sender = "omniaCapstoneProject.com"
 server = "smtp.gmail.com"
 
@@ -28,5 +29,6 @@ server.connect("smtp.gmail.com", 587)
 
 server.starttls()
 server.login("omniacproject@gmail.com", "Password4!")
-server.sendmail(sender, receiver, message)
+server.sendmail(sender, receiver1, message)
+server.sendmail(sender, receiver2, message)
 server.quit()
