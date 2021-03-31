@@ -96,13 +96,24 @@ app.post('/user/data', (req, res) => {
 })
 
 app.post('/api/representativeInfo', (req, res) => {
-    let json = req.body
-    token = json.token
     representatives.find({}).toArray(function(err, repList) {
         if (err) throw err;
-        delete repList['state']
-        delete repList['bills']
+        console.log(repList)
+        delete repList[0]['state']
+        delete repList[0]['bills']
+        delete repList[1]['state']
+        delete repList[1]['bills']
         res.send(repList)
+    });
+})
+
+app.post('/api/representativeVotingHistory', (req, res) => {
+    representatives.find({}).toArray(function(err, repList) {
+        if (err) throw err;
+        console.log(repList)
+        billList1 = repList[0]['bills']
+        billList2 = repList[1]['bills']
+        res.send(billList1.concat(billList2))
     });
 })
 
