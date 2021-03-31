@@ -1,0 +1,50 @@
+.past-bill__card {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.past-bill {
+  display: grid;
+  grid-template-columns: 55% 20% 20% 5%;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "title user-vote rep-vote details-button";
+}
+
+.past-bill__title {
+  grid-area: title;
+  align-self: center;
+  margin: 0px;
+  padding: 0px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.past-bill__user-vote {
+  grid-area: user-vote;
+  align-self: center;
+  justify-self: center;
+}
+
+.past-bill__user-vote__text {
+  margin: 0px;
+}
+
+.past-bill__rep-vote {
+  grid-area: rep-vote;
+  align-self: center;
+  justify-self: center;
+}
+
+.past-bill__rep-vote__text {
+  margin: 0px;
+}
+
+.past-bill__menu {
+  grid-area: details-button;
+  justify-self: right;
+}
+
+.past-bill__menu__delete {
+  color: red;
+}

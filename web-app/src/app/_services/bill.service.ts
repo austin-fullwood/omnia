@@ -13,11 +13,21 @@ export class BillService {
   }
 
   public getUpcomingBills(user: User): Observable<Bill[]> {
-    return this.http.post<Bill[]>('http://localhost:3000/api/upcomingbills', user);
+    return this.http.post<Bill[]>('https://omnia.ninja/api/upcomingbills', user);
   }
 
   public getPastBills(user: User): Observable<Bill[]> {
-    return this.http.post<Bill[]>('http://localhost:3000/api/pastbills', user);
+    return this.http.post<Bill[]>('https://omnia.ninja/api/pastbills', user);
+  }
+
+  public setBillVote(user: User, billId: string, votedYes: boolean): Observable<string> {
+    const billInfo = {
+      token: user.token,
+      email: user.email,
+      billId,
+      votedYes
+    };
+    return this.http.post<string>('https://omnia.ninja/api/billVote', billInfo);
   }
 
 }

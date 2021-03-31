@@ -1,0 +1,11 @@
+.search-past-bills {
+  padding: 40px 40px 0px;
+}
+
+.search-past-bills__title {
+  font-size: 24px;
+}
+
+.search-past-bills__search-bar {
+  width: 100%;
+}

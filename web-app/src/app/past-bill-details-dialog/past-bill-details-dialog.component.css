@@ -1,0 +1,86 @@
+.details {
+  padding: 40px 40px 20px 40px;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: auto auto auto auto auto auto auto auto auto;
+  grid-template-areas:
+    "title title"
+    "subtitle subtitle"
+    "overview-title overview-title"
+    "overview overview"
+    "pros-title cons-title"
+    "pros cons"
+    "user-vote-title rep-vote-title"
+    "user-vote rep-vote"
+    "user-vote-date rep-vote-date";
+  column-gap: 15px;
+}
+
+.details__short-title {
+  grid-area: title;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.details__title {
+  grid-area: subtitle;
+  font-style: italic;
+}
+
+.details__overview-title {
+  grid-area: overview-title;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.details__overview {
+  grid-area: overview;
+}
+
+.details__pros-title {
+  grid-area: pros-title;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.details__cons-title {
+  grid-area: cons-title;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.details__pros {
+  grid-area: pros;
+}
+
+.details__cons {
+  grid-area: cons;
+}
+
+.details__user-vote-title {
+  grid-area: user-vote-title;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.details__user-vote {
+  grid-area: user-vote;
+}
+
+.details__user-vote-date {
+  grid-area: user-vote-date;
+}
+
+.details__rep-vote-title {
+  grid-area: rep-vote-title;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.details__rep-vote {
+  grid-area: rep-vote;
+}
+
+.details__rep-vote-date {
+  grid-area: rep-vote-date;
+}

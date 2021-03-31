@@ -12,7 +12,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ErrorInterceptor} from './interceptors/error.interceptor';
 import {AuthenticationInterceptor} from './interceptors/authentication.interceptor';
-import { UpcomingBillsComponent } from './upcomingbills/upcoming-bills.component';
+import { UpcomingBillsComponent } from './upcoming-bills/upcoming-bills.component';
+import { PastBillComponent } from './past-bill/past-bill.component';
+import { SearchPastBillsComponent } from './search-past-bills/search-past-bills.component';
+import { PastBillDetailsDialogComponent } from './past-bill-details-dialog/past-bill-details-dialog.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,10 @@ import { UpcomingBillsComponent } from './upcomingbills/upcoming-bills.component
     RegisterComponent,
     LoginComponent,
     DashboardComponent,
-    UpcomingBillsComponent
+    UpcomingBillsComponent,
+    PastBillComponent,
+    SearchPastBillsComponent,
+    PastBillDetailsDialogComponent
   ],
   imports: [
     BrowserModule,
