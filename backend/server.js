@@ -12,6 +12,7 @@ const cors = require('cors');
 var db = null
 var users = null
 var bills = null
+var representatives = null
 MongoClient.connect('mongodb+srv://omnia:greencomputing@cluster0.g1kbr.mongodb.net/omnia?retryWrites=true&w=majority', {
     useUnifiedTopology: true
 })
@@ -20,6 +21,7 @@ MongoClient.connect('mongodb+srv://omnia:greencomputing@cluster0.g1kbr.mongodb.n
         db = client.db('omnia')
         users = db.collection('users')
         bills = db.collection('bills')
+        representatives = db.collection('representatives')
     })
     .catch(error => console.error(error));
 
@@ -28,20 +30,6 @@ app.use(bodyParser.json());
 app.use(cors());
 
 //CRUD Handlers
-app.get('/', (req, res) => {
-    //res.send('Hello World')
-    res.sendFile(__dirname + '/index.html')
-})
-
-app.get('/reg', (req, res) => {
-    //res.send('Hello World')
-    res.sendFile(__dirname + '/register.html')
-})
-
-app.get('/test', (req, res) => {
-    //res.send('Hello World')
-    res.sendFile(__dirname + '/test.html')
-})
 
 app.post('/user/register', (req, res) => {
     let json = req.body;
@@ -107,6 +95,28 @@ app.post('/user/data', (req, res) => {
     });
 })
 
+app.post('/api/representativeInfo', (req, res) => {
+    representatives.find({}).toArray(function(err, repList) {
+        if (err) throw err;
+        console.log(repList)
+        delete repList[0]['state']
+        delete repList[0]['bills']
+        delete repList[1]['state']
+        delete repList[1]['bills']
+        res.send(repList)
+    });
+})
+
+app.post('/api/representativeVotingHistory', (req, res) => {
+    representatives.find({}).toArray(function(err, repList) {
+        if (err) throw err;
+        console.log(repList)
+        billList1 = repList[0]['bills']
+        billList2 = repList[1]['bills']
+        res.send(billList1.concat(billList2))
+    });
+})
+
 app.post('/api/upcomingBills', (req, res) => {
     let json = req.body
     token = json.token
@@ -151,16 +161,10 @@ app.post('/api/pastBills', (req, res) => {
             var promises = []
             for(billIndex in result.bills){
                 billId = result.bills[billIndex].billId
-                //console.log(result.bills[billIndex])
-                //temp = bills.findOne({"bill_id":billId})
-                //temp["votedYes"] = result.bills[billIndex].votedYes
-                //temp["voteDate"] = result.bills[billIndex].voteDate
-                //console.log(temp)
                 promises.push(bills.findOne({"bill_id":billId}))
             }
             Promise.all(promises).then(promiseList => {
                 for(var i = 0;i<promiseList.length;i++){
-                    //console.log(result[i]["bill_id"])
                     for(billIndex in result.bills){
                         billId = result.bills[billIndex].billId
                         if(billId == promiseList[i]["bill_id"]){
@@ -186,9 +190,16 @@ app.post('/api/billVote', (req, res) => {
         "voteDate": new Date(Date.now()),
         "votedYes": votedYes
     }
-    users.updateOne({"email":email}, {$push: {"bills": billJson}}, function(err,doc) {
+    users.updateOne({"email":email, "bills.billId":billId}, {$set: {"bills.$.votedYes": votedYes}}, function(err,doc) {
         if (err) {
             throw err;
+        }
+        if(doc['matchedCount'] == 0){
+            users.updateOne({"email":email}, {$push: {"bills": billJson}}, function(err,doc) {
+                if (err) {
+                    throw err;
+                }
+            });
         }
         res.status(200);
         res.json({});
