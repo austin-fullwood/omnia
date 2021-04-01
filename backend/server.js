@@ -190,9 +190,16 @@ app.post('/api/billVote', (req, res) => {
         "voteDate": new Date(Date.now()),
         "votedYes": votedYes
     }
-    users.updateOne({"email":email}, {$push: {"bills": billJson}}, function(err,doc) {
+    users.updateOne({"email":email, "bills.billId":billId}, {$set: {"bills.$.votedYes": votedYes}}, function(err,doc) {
         if (err) {
             throw err;
+        }
+        if(doc['matchedCount'] == 0){
+            users.updateOne({"email":email}, {$push: {"bills": billJson}}, function(err,doc) {
+                if (err) {
+                    throw err;
+                }
+            });
         }
         res.status(200);
         res.json({});
