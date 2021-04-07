@@ -36,12 +36,6 @@ app.post('/user/register', (req, res) => {
     email = json.email;
     password = json.password;
 
-    if (users.findOne({"email":email})) {
-        res.status(409);
-        res.send('Email is linked to another user.');
-        return;
-    }
-
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
             // Signed in 
@@ -57,9 +51,7 @@ app.post('/user/register', (req, res) => {
             users.insertOne(json)
         })
         .catch((error) => {
-            var errorCode = error.code;
             var errorMessage = error.message;
-            res.status(errorCode);
             res.send(errorMessage)
         });
 })
@@ -107,7 +99,45 @@ app.post('/api/representativeInfo', (req, res) => {
     });
 })
 
+app.post('/api/unvotedBills', (req, res) => {
+    bills.find({"repVoted":"false"}).toArray(function(err, result) {
+        res.send(result);
+    });
+})
+
 app.post('/api/representativeVotingHistory', (req, res) => {
+    let json = req.body
+    billId = json.billId
+    state = json.state
+    representatives.find({"bills.billId":billId}).toArray(function(err, repList) {
+        if (err) throw err;
+        vote1 = null
+        vote2 = null
+        if(repList[0] == undefined){
+            res.send("no Bill was found")
+        }
+        else{
+            billList1 = repList[0]['bills']
+            for(bid in billList1){
+                specificBill = billList1[bid]
+                if(specificBill['billId'] == billId){
+                    vote1 = specificBill
+                }
+            }
+            billList2 = repList[1]['bills']
+            for(bid in billList2){
+                specificBill = billList2[bid]
+                if(specificBill['billId'] == billId){
+                    vote2 = specificBill
+                }
+            }
+            result = [vote1,vote2]
+            res.send(result)
+        }
+    });
+})
+
+app.post('/api/totalVotingHistory', (req, res) => {
     representatives.find({}).toArray(function(err, repList) {
         if (err) throw err;
         console.log(repList)
@@ -185,12 +215,13 @@ app.post('/api/billVote', (req, res) => {
     email = json.email;
     billId = json.billId;
     votedYes = json.votedYes;
+    voteDate = new Date(Date.now())
     billJson = {
         "billId":billId,
-        "voteDate": new Date(Date.now()),
+        "voteDate": voteDate,
         "votedYes": votedYes
     }
-    users.updateOne({"email":email, "bills.billId":billId}, {$set: {"bills.$.votedYes": votedYes}}, function(err,doc) {
+    users.updateOne({"email":email, "bills.billId":billId}, {$set: {"bills.$.votedYes": votedYes, "bills.$.voteDate": voteDate}}, function(err,doc) {
         if (err) {
             throw err;
         }
