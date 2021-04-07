@@ -4,11 +4,14 @@
     <div class="past-bill__user-vote">
       <p class="past-bill__user-vote__text" [style.color]="this.getUserVoteColor()">Your Vote: {{ this.getUserVote() }}</p>
     </div>
-    <div class="past-bill__rep-vote">
-      <p class="past-bill__rep-vote__text" [style.color]="this.getRepVoteColor()">Rep Vote: {{ this.getRepVote() }}</p>
+    <div class="past-bill__rep-vote-1">
+      <p class="past-bill__rep-vote__text" [style.color]="this.getRep1VoteColor()">{{ this.rep1.lastName }}: {{ this.getRep1Vote() }}</p>
     </div>
-    <button mat-icon-button [matMenuTriggerFor]="menu" class="past-bill__menu">
-      <mat-icon>more_vert</mat-icon>
+    <div class="past-bill__rep-vote-2">
+      <p class="past-bill__rep-vote__text" [style.color]="this.getRep2VoteColor()">{{ this.rep2.lastName }}: {{ this.getRep2Vote() }}</p>
+    </div>
+    <button mat-icon-button (click)="this.showDetails()" class="past-bill__menu"> <!-- [matMenuTriggerFor]="menu" -->
+      <mat-icon>menu</mat-icon>
     </button>
     <mat-menu #menu="matMenu" xPosition="before">
       <button mat-menu-item (click)="this.showDetails()">

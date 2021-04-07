@@ -16,6 +16,9 @@ import { UpcomingBillsComponent } from './upcoming-bills/upcoming-bills.componen
 import { PastBillComponent } from './past-bill/past-bill.component';
 import { SearchPastBillsComponent } from './search-past-bills/search-past-bills.component';
 import { PastBillDetailsDialogComponent } from './past-bill-details-dialog/past-bill-details-dialog.component';
+import { RepresentativeComponent } from './representative/representative.component';
+import { RepresentativesComponent } from './representatives/representatives.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,10 @@ import { PastBillDetailsDialogComponent } from './past-bill-details-dialog/past-
     UpcomingBillsComponent,
     PastBillComponent,
     SearchPastBillsComponent,
-    PastBillDetailsDialogComponent
+    PastBillDetailsDialogComponent,
+    RepresentativeComponent,
+    RepresentativesComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

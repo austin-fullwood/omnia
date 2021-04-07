@@ -1,16 +1,27 @@
-<mat-toolbar>
-  <span class="toolbar-logo">Omnia</span>
-  <span class="toolbar-spacer"></span>
+<mat-toolbar *ngIf="this.userLoggedIn()">
+  <span class="toolbar__logo"><a routerLink="/">Omnia</a></span>
+  <span class="toolbar__spacer"></span>
   <button mat-button class="user-button" [matMenuTriggerFor]="userMenu">
     {{ this.currentUser.firstName }} {{ this.currentUser.lastName }}
   </button>
   <mat-menu #userMenu="matMenu" xPosition="before">
-    <button mat-menu-item>Settings</button>
-    <button mat-menu-item (click)="this.logout()">Logout</button>
+    <button mat-menu-item (click)="this.logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
   </mat-menu>
 </mat-toolbar>
 
 <div class="main-div">
   <app-upcoming-bills></app-upcoming-bills>
+  <app-representatives></app-representatives>
   <app-search-past-bills></app-search-past-bills>
+    <button
+      mat-flat-button
+      class="dashboard__voting-registration"
+      (click)="this.document.location.href = 'https://vote.elections.virginia.gov/VoterInformation'"
+      color="primary"
+    >
+      Register To Vote!
+    </button>
 </div>

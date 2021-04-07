@@ -1,0 +1,29 @@
+<mat-card>
+  <mat-card-header>
+    <img mat-card-avatar src="{{ this.rep.imageURL }}" />
+    <mat-card-title>{{ this.rep.firstName }} {{ this.rep.lastName }}</mat-card-title>
+    <mat-card-subtitle>{{ this.rep.party }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content class="representative__voting">
+    <p class="representative__voting__voted-with-you-title">Voted With You:</p>
+    <p class="representative__voting__voted-with-you-value">
+      {{ this.rep.votedSamePercentage !== undefined ? this.rep.votedSamePercentage : 0 }}%
+    </p>
+    <mat-progress-bar
+      class="representative__voting__voted-with-you-progress"
+      color="primary"
+      mode="determinate"
+      [value]="this.rep.votedSamePercentage !== undefined ? this.rep.votedSamePercentage : 0">
+    </mat-progress-bar>
+    <p class="representative__voting__voted-against-you-title">Voted Against You:</p>
+    <p class="representative__voting__voted-against-you-value">
+      {{ this.rep.votedAgainstPercentage !== undefined ? this.rep.votedAgainstPercentage : 0 }}%
+    </p>
+    <mat-progress-bar
+      class="representative__voting__voted-against-you-progress"
+      color="warn"
+      mode="determinate"
+      [value]="this.rep.votedAgainstPercentage !== undefined ? this.rep.votedAgainstPercentage : 0">
+    </mat-progress-bar>
+  </mat-card-content>
+</mat-card>

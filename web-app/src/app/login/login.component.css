@@ -24,7 +24,7 @@
 
 .logo {
   grid-area: logo;
-  color: #4050b5;
+  color: #007CDC;
 }
 
 .sign-in-label {
@@ -50,11 +50,13 @@
 
 .create-account-link-a {
   text-decoration: none;
+  color: #007CDC;
 }
 
 .sign-in-button {
   grid-area: sign-in;
   justify-self: end;
+  background-color: #007CDC;
 }
 
 .error-hint {

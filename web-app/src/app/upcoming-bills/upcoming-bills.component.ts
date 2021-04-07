@@ -42,6 +42,8 @@ export class UpcomingBillsComponent implements OnInit {
 
           const voteStr = votedYes ? 'Yea' : 'Nay';
           this.notifService.showNotif('Voted: ' + voteStr, 'complete', 1000);
+
+          this.billService.updatePastBills(this.userService.currentUserValue);
         },
         err => {
           console.log(err);

@@ -2,8 +2,7 @@
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <mat-card class="register-card">
       <div class="main-div">
-        <h1 class="logo">Omnia</h1>
-        <h2 class="create-account-label">Create Account</h2>
+        <h2 class="create-account-label">Settings</h2>
         <mat-form-field appearance="fill" class="first-name-form">
           <mat-label>First Name</mat-label>
           <input matInput type="text" formControlName="firstName" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
@@ -76,9 +75,8 @@
             <mat-hint *ngIf="f.zip.errors.maxLength">Must be 5 digits</mat-hint>
           </mat-hint>
         </mat-form-field>
-        <p class="sign-in-link-p"><a routerLink="/login" class="sign-in-link-a">Sign In Instead</a></p>
         <button mat-flat-button color="primary" class="create-account-button" [disabled]="this.loading">
-          Create Account
+          Save
         </button>
         <mat-hint class="error-hint" *ngIf="this.error !== ''">
           {{ this.error }}

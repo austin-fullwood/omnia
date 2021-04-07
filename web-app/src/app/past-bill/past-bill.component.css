@@ -5,10 +5,10 @@
 
 .past-bill {
   display: grid;
-  grid-template-columns: 55% 20% 20% 5%;
+  grid-template-columns: 44% 17% 17% 17% 5%;
   grid-template-rows: auto;
   grid-template-areas:
-    "title user-vote rep-vote details-button";
+    "title user-vote rep-vote-1 rep-vote-2 details-button";
 }
 
 .past-bill__title {
@@ -30,8 +30,14 @@
   margin: 0px;
 }
 
-.past-bill__rep-vote {
-  grid-area: rep-vote;
+.past-bill__rep-vote-1 {
+  grid-area: rep-vote-1;
+  align-self: center;
+  justify-self: center;
+}
+
+.past-bill__rep-vote-2 {
+  grid-area: rep-vote-2;
   align-self: center;
   justify-self: center;
 }

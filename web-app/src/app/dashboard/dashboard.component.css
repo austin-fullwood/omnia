@@ -3,8 +3,17 @@ mat-toolbar {
   color: white;
 }
 
-.toolbar-spacer {
+.toolbar__spacer {
   flex: 1 1 auto;
+}
+
+.toolbar__logo {
+  font-size: 30px;
+}
+
+a {
+  color: inherit; /* blue colors for links too */
+  text-decoration: inherit; /* no underline */
 }
 
 .main-div {
@@ -16,7 +25,8 @@ mat-toolbar {
   grid-template-rows: auto auto;
   grid-template-areas:
     "upcomingbills representatives"
-    "searchpastbills searchpastbills";
+    "searchpastbills searchpastbills"
+    "voting-registration voting-registration";
   column-gap: 15px;
   row-gap: 15px;
 }
@@ -25,6 +35,16 @@ app-upcoming-bills {
   grid-area: upcomingbills;
 }
 
+app-representatives {
+  grid-area: representatives;
+}
+
 app-search-past-bills {
   grid-area: searchpastbills;
+}
+
+.dashboard__voting-registration {
+  grid-area: voting-registration;
+  margin-bottom: 20px;
+  align-self: stretch;
 }
