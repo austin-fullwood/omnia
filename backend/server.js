@@ -78,6 +78,20 @@ app.post('/user/signin', (req, res) => {
         });
 })
 
+app.post('/user/reset', (req, res) => {
+    let json = req.body
+    email = json.email;
+    firebase.auth().sendPasswordResetEmail(email)
+        .then(function(){
+            res.sendStatus(200);
+        })
+        .catch((error) => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            res.send(errorMessage)
+        });
+})
+
 app.post('/user/data', (req, res) => {
     let json = req.body
     token = json.token
