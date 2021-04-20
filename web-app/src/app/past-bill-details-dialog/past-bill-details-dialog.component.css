@@ -11,8 +11,8 @@
     "pros-title cons-title"
     "pros cons"
     "user-vote-title rep-vote-title"
-    "user-vote rep-vote"
-    "user-vote-date rep-vote-date";
+    "user-vote rep-vote-1"
+    "user-vote-date rep-vote-2";
   column-gap: 15px;
 }
 
@@ -77,10 +77,10 @@
   font-weight: bold;
 }
 
-.details__rep-vote {
-  grid-area: rep-vote;
+.details__rep-vote-1 {
+  grid-area: rep-vote-1;
 }
 
-.details__rep-vote-date {
-  grid-area: rep-vote-date;
+.details__rep-vote-2 {
+  grid-area: rep-vote-2;
 }

@@ -154,7 +154,6 @@ app.post('/api/representativeVotingHistory', (req, res) => {
 app.post('/api/totalVotingHistory', (req, res) => {
     representatives.find({}).toArray(function(err, repList) {
         if (err) throw err;
-        console.log(repList)
         billList1 = repList[0]['bills']
         billList2 = repList[1]['bills']
         res.send(billList1.concat(billList2))

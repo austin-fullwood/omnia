@@ -1,0 +1,38 @@
+.representative__voting {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: auto auto auto auto;
+  grid-template-areas:
+    "voted-with-you-title voted-with-you-value"
+    "voted-with-you-progress voted-with-you-progress"
+    "voted-against-you-title voted-against-you-value"
+    "voted-against-you-progress voted-against-you-progress";
+}
+
+.representative__voting__voted-with-you-title {
+  grid-area: voted-with-you-title;
+}
+
+.representative__voting__voted-against-you-title {
+  grid-area: voted-against-you-title;
+  padding-top: 12px;
+}
+
+.representative__voting__voted-with-you-value {
+  grid-area: voted-with-you-value;
+  justify-self: right;
+}
+
+.representative__voting__voted-against-you-value {
+  grid-area: voted-against-you-value;
+  justify-self: right;
+  padding-top: 12px;
+}
+
+.representative__voting__voted-with-you-progress {
+  grid-area: voted-with-you-progress;
+}
+
+.representative__voting__voted-against-you-progress {
+  grid-area: voted-against-you-progress;
+}

@@ -84,12 +84,18 @@ export class UserService {
             newUser.bills = data.bills;
             newUser.id = data.id;
 
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+            this.currentUserSubject.next(newUser);
+
             return newUser;
           } else {
+            localStorage.setItem('currentUser', JSON.stringify(data));
+            this.currentUserSubject.next(data);
+
             return data;
           }
         }
-        return null;
+        return data;
       }));
   }
 

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {UserService} from '../_services/user.service';
 import {Router} from '@angular/router';
 import {User} from '../_models/user';
 import {NotificationService} from '../_services/notification.service';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,28 +16,21 @@ export class DashboardComponent implements OnInit {
 
   constructor(private userService: UserService,
               private router: Router,
-              private notifService: NotificationService) {
-    this.getUser();
+              private notifService: NotificationService,
+              @Inject(DOCUMENT) private document: Document) {
+    this.currentUser = this.userService.currentUserValue;
   }
 
   ngOnInit(): void {
   }
 
-  private getUser(): void {
-    this.userService.getUser(this.userService.currentUserValue).subscribe(
-      data => {
-        this.currentUser = data;
-      },
-      err => {
-        console.log(err);
-        this.notifService.showNotif(err);
-      }
-    );
-  }
-
   public logout(): void {
     this.userService.logout();
     this.router.navigate(['/login']);
+  }
+
+  public userLoggedIn(): boolean {
+    return this.userService.isLoggedIn();
   }
 
 }

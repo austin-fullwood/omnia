@@ -11,10 +11,10 @@
   <p class="details__user-vote" [style.color]="this.bill.votedYes ? 'green' : 'red'">Voted: {{ this.bill.votedYes ? 'Yay' : 'Nay' }}</p>
   <p class="details__user-vote-date">Date: {{ this.bill.voteDate | date: 'longDate' }}</p>
   <p class="details__rep-vote-title">Representative Vote</p>
-  <p class="details__rep-vote" [style.color]="(this.repVotedYes !== undefined) ? (this.repVotedYes ? 'green' : 'red') : 'black'">
-    Voted: {{ (this.repVotedYes !== undefined) ? (this.repVotedYes ? 'Yay' : 'Nay') : 'Waiting' }}
+  <p class="details__rep-vote-1" [style.color]="(this.repVotedYes !== undefined) ? (this.repVotedYes ? 'green' : 'red') : 'black'">
+    {{ this.rep1.lastName }}: {{ (this.repVotedYes !== undefined) ? (this.repVotedYes ? 'Yay' : 'Nay') : 'Waiting' }}
   </p>
-  <p class="details__rep-vote-date">
-    Date: {{ (this.repVoteDate !== undefined) ? (this.repVoteDate | date: 'longDate') : 'Waiting' }}
+  <p class="details__rep-vote-2" [style.color]="(this.repVotedYes !== undefined) ? (this.repVotedYes ? 'green' : 'red') : 'black'">
+    {{ this.rep2.lastName }}: {{ (this.repVotedYes !== undefined) ? (this.repVotedYes ? 'Yay' : 'Nay') : 'Waiting' }}
   </p>
 </div>

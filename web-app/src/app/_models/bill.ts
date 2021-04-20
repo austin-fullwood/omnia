@@ -13,4 +13,6 @@ export class Bill {
   cons?: string[];
   // tslint:disable-next-line:variable-name
   _id?: string;
+  rep1VotedYes?: boolean;
+  rep2VotedYes?: boolean;
 }

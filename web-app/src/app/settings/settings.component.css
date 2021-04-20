@@ -15,9 +15,8 @@ mat-hint {
   padding: 40px 45px;
   display: grid;
   grid-template-columns: 50% 20% 30%;
-  grid-template-rows: auto auto auto auto auto auto auto auto auto 15px;
+  grid-template-rows: auto auto auto auto auto auto auto auto 15px;
   grid-template-areas:
-    "logo logo logo"
     "create-account-label create-account-label create-account-label"
     "first-name-form last-name-form last-name-form"
     "email email email"
@@ -25,10 +24,14 @@ mat-hint {
     "hide-password-checkbox hide-password-checkbox hide-password-checkbox"
     "address address address"
     "city state zipcode"
-    "sign-in-link create-account-button create-account-button"
+    "create-account-button create-account-button create-account-button"
     "error-hint error-hint error-hint";
   justify-items: center;
   column-gap: 15px;
+}
+
+.create-account-label {
+  grid-area: create-account-label;
 }
 
 .hide-password-checkbox {
@@ -36,15 +39,6 @@ mat-hint {
   justify-self: start;
   align-self: center;
   padding-bottom: 10px;
-}
-
-.logo {
-  grid-area: logo;
-  color: #007CDC;
-}
-
-.create-account-label {
-  grid-area: create-account-label;
 }
 
 .first-name-form {
@@ -92,22 +86,9 @@ mat-hint {
   width: 100%;
 }
 
-.sign-in-link-p {
-  grid-area: sign-in-link;
-  align-self: center;
-  justify-self: start;
-  margin: 0px;
-}
-
-.sign-in-link-a {
-  text-decoration: none;
-  color: #007CDC;
-}
-
 .create-account-button {
   grid-area: create-account-button;
-  justify-self: end;
-  background-color: #007CDC;
+  justify-self: stretch;
 }
 
 .error-hint {

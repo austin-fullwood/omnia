@@ -11,7 +11,7 @@
     </mat-form-field>
 
     <div *ngFor="let bill of this.currentBills">
-      <app-past-bill [bill]="bill"></app-past-bill>
+      <app-past-bill [bill]="bill" [rep1]="this.getFirstRep()" [rep2]="this.getSecondRep()"></app-past-bill>
     </div>
   </div>
 

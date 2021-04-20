@@ -7,6 +7,7 @@ mat-card {
   display: grid;
   grid-template-columns: 50% 50%;
   grid-template-rows: 30px 85px auto 140px auto 100px auto;
+  /*grid-template-rows: auto auto auto auto auto auto auto;*/
   grid-template-areas:
     "title title"
     "subtitle subtitle"
@@ -61,12 +62,14 @@ mat-card {
 
 .yes-button {
   grid-area: yes-button;
+  align-self: baseline;
   background-color: #8AC443;
   color: white;
 }
 
 .no-button {
   grid-area: no-button;
+  align-self: baseline;
   background-color: #FE1444;
   color: white;
 }

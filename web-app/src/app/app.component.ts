@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {User} from './_models/user';
 import {Router} from '@angular/router';
 import {UserService} from './_services/user.service';
+import {NotificationService} from './_services/notification.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,6 @@ import {UserService} from './_services/user.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Omnia';
 
   constructor() {
   }
