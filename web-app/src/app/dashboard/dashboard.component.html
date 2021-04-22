@@ -5,6 +5,10 @@
     {{ this.currentUser.firstName }} {{ this.currentUser.lastName }}
   </button>
   <mat-menu #userMenu="matMenu" xPosition="before">
+    <button mat-menu-item (click)="this.router.navigate(['/settings'])">
+      <mat-icon>settings</mat-icon>
+      <span>Settings</span>
+    </button>
     <button mat-menu-item (click)="this.logout()">
       <mat-icon>logout</mat-icon>
       <span>Logout</span>

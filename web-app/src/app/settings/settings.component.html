@@ -1,11 +1,27 @@
+<mat-toolbar *ngIf="this.userLoggedIn()">
+  <span class="toolbar__logo"><a routerLink="/" class="toolbar__a">Omnia</a></span>
+  <span class="toolbar__spacer"></span>
+  <button mat-button class="user-button" [matMenuTriggerFor]="userMenu">
+    {{ this.currentUser.firstName }} {{ this.currentUser.lastName }}
+  </button>
+  <mat-menu #userMenu="matMenu" xPosition="before">
+    <button mat-menu-item (click)="this.logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+
 <div class="page">
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="registerForm">
     <mat-card class="register-card">
       <div class="main-div">
-        <h2 class="create-account-label">Settings</h2>
+        <h2 class="create-account-label">Change Account Settings</h2>
         <mat-form-field appearance="fill" class="first-name-form">
           <mat-label>First Name</mat-label>
-          <input matInput type="text" formControlName="firstName" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
+          <input matInput type="text"
+                 formControlName="firstName"
+                 [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
           <mat-hint *ngIf="submitted && f.firstName.errors">
             <mat-hint *ngIf="f.firstName.errors.required">Required</mat-hint>
             <mat-hint *ngIf="f.firstName.errors.pattern">Illegal characters</mat-hint>
@@ -26,25 +42,6 @@
             <mat-hint *ngIf="f.email.errors.required">Required</mat-hint>
             <mat-hint *ngIf="f.email.errors.email">Not valid</mat-hint>
           </mat-hint>
-        </mat-form-field>
-        <mat-form-field appearance="fill" class="password-form">
-          <mat-label>Password</mat-label>
-          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
-          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword; $event.preventDefault()" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
-            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
-          <mat-hint *ngIf="submitted && f.password.errors">
-            <mat-hint *ngIf="f.password.errors.required">Required</mat-hint>
-            <mat-hint *ngIf="f.password.errors.minlength">Must be at least 6 characters</mat-hint>
-          </mat-hint>
-        </mat-form-field>
-        <mat-form-field appearance="fill" class="confirm-password-form">
-          <mat-label>Confirm Password</mat-label>
-          <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword" [ngClass]="{ 'is-invalid': submitted && registerForm.hasError('notSame') }">
-          <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword; $event.preventDefault()" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirmPassword">
-            <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
-          <mat-hint *ngIf="submitted && registerForm.hasError('notSame')">Doesn't match password</mat-hint>
         </mat-form-field>
         <mat-form-field appearance="fill" class="address-form">
           <mat-label>Address</mat-label>
@@ -75,13 +72,35 @@
             <mat-hint *ngIf="f.zip.errors.maxLength">Must be 5 digits</mat-hint>
           </mat-hint>
         </mat-form-field>
-        <button mat-flat-button color="primary" class="create-account-button" [disabled]="this.loading">
-          Save
+        <button
+          mat-flat-button
+          color="primary"
+          class="create-account-button"
+          (click)="this.saveChanges()"
+          [disabled]="this.loading">
+          Save Changes
         </button>
-        <mat-hint class="error-hint" *ngIf="this.error !== ''">
+        <mat-hint
+          class="error-hint"
+          [style.color]="this.errorRed ? 'red' : 'black'"
+          *ngIf="this.error !== ''">
           {{ this.error }}
+        </mat-hint>
+        <button
+          mat-flat-button color="primary"
+          class="change-password-button"
+          (click)="this.changePassword()"
+          [disabled]="this.disableChangePassword">
+          Change Password
+        </button>
+        <mat-hint
+          class="change-password-hint"
+          *ngIf="this.changePasswordHint !== ''"
+          [style.color]="changePasswordHintRed ? 'red' : 'black'">
+          {{ this.changePasswordHint }}
         </mat-hint>
       </div>
     </mat-card>
   </form>
 </div>
+

@@ -11,7 +11,7 @@
       <p class="past-bill__rep-vote__text" [style.color]="this.getRep2VoteColor()">{{ this.rep2.lastName }}: {{ this.getRep2Vote() }}</p>
     </div>
     <button mat-icon-button (click)="this.showDetails()" class="past-bill__menu"> <!-- [matMenuTriggerFor]="menu" -->
-      <mat-icon>menu</mat-icon>
+      <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu" xPosition="before">
       <button mat-menu-item (click)="this.showDetails()">

@@ -9,6 +9,10 @@ require("firebase/auth");
 /*CORS stands for Cross Origin Resource Sharing and allows modern web browsers to be able to send AJAX requests and receive HTTP responses for resource from other domains other that the domain serving the client side application.*/
 const cors = require('cors');
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(cors());
+
 var db = null
 var users = null
 var bills = null
@@ -24,10 +28,6 @@ MongoClient.connect('mongodb+srv://omnia:greencomputing@cluster0.g1kbr.mongodb.n
         representatives = db.collection('representatives')
     })
     .catch(error => console.error(error));
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(cors());
 
 //CRUD Handlers
 

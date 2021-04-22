@@ -15,9 +15,9 @@ export class DashboardComponent implements OnInit {
   public currentUser = new User();
 
   constructor(private userService: UserService,
-              private router: Router,
+              public router: Router,
               private notifService: NotificationService,
-              @Inject(DOCUMENT) private document: Document) {
+              @Inject(DOCUMENT) public document: Document) {
     this.currentUser = this.userService.currentUserValue;
   }
 

@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
 
   public onSubmit(): void {
     this.submitted = true;
+    this.error = '';
     if (this.registerForm.invalid) {
       return;
     }
@@ -62,14 +63,14 @@ export class LoginComponent implements OnInit {
             },
             err => {
               console.log(err);
-              this.error = err;
+              this.error = 'Incorrect username and/or password';
               this.loading = false;
             }
           );
         },
         err => {
           console.log(err);
-          this.error = err;
+          this.error = 'Incorrect username and/or password';
           this.loading = false;
         });
   }
