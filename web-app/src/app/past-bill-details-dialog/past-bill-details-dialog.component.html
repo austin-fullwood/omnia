@@ -17,4 +17,11 @@
   <p class="details__rep-vote-2" [style.color]="(this.repVotedYes !== undefined) ? (this.repVotedYes ? 'green' : 'red') : 'black'">
     {{ this.rep2.lastName }}: {{ (this.repVotedYes !== undefined) ? (this.repVotedYes ? 'Yay' : 'Nay') : 'Waiting' }}
   </p>
+  <button
+    mat-flat-button
+    class="details__change-vote-button"
+    [style.background-color]="this.bill.votedYes ? '#FE1444' : '#8AC443'"
+    (click)="this.changeVote()">
+    Change vote to '{{ this.bill.votedYes ? 'Nay' : 'Yay' }}'
+  </button>
 </div>

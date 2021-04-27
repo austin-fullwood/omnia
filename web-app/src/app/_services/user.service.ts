@@ -56,17 +56,11 @@ export class UserService {
   public register(user: User): Observable<any> {
     return this.http.post<User>('https://omnia.ninja/user/register', user)
       .pipe(map(data => {
-        const newUser = this.currentUserValue;
+        const newUser = user;
         if (data && data.token) {
-          if (newUser) {
-            newUser.email = data.email;
-            newUser.token = data.token;
-            localStorage.setItem('currentUser', JSON.stringify(newUser));
-            this.currentUserSubject.next(newUser);
-          } else {
-            localStorage.setItem('currentUser', JSON.stringify(data));
-            this.currentUserSubject.next(data);
-          }
+          newUser.token = data.token;
+          localStorage.setItem('currentUser', JSON.stringify(newUser));
+          this.currentUserSubject.next(newUser);
         }
         return data;
      }));
@@ -80,9 +74,11 @@ export class UserService {
           if (newUser) {
             newUser.firstName = data.firstName;
             newUser.lastName = data.lastName;
-            newUser.location = data.location;
             newUser.bills = data.bills;
             newUser.id = data.id;
+            newUser.address = data.address;
+            newUser.city = data.city;
+            newUser.zip = data.zip;
 
             localStorage.setItem('currentUser', JSON.stringify(newUser));
             this.currentUserSubject.next(newUser);

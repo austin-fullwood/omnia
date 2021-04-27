@@ -12,7 +12,8 @@
     "pros cons"
     "user-vote-title rep-vote-title"
     "user-vote rep-vote-1"
-    "user-vote-date rep-vote-2";
+    "user-vote-date rep-vote-2"
+    "change-vote-button change-vote-button";
   column-gap: 15px;
 }
 
@@ -83,4 +84,10 @@
 
 .details__rep-vote-2 {
   grid-area: rep-vote-2;
+}
+
+.details__change-vote-button {
+  grid-area: change-vote-button;
+  justify-self: stretch;
+  color: white;
 }

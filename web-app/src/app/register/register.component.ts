@@ -62,6 +62,7 @@ export class RegisterComponent implements OnInit {
 
   public onSubmit(): void {
     this.submitted = true;
+    this.error = '';
     if (this.registerForm.invalid) {
       return;
     }
@@ -78,6 +79,7 @@ export class RegisterComponent implements OnInit {
         registerInfo => {
           this.authService.getUser(registerInfo).subscribe(
             userData => {
+              console.log(registerInfo);
               this.router.navigate(['/']);
               this.notif.showNotif('Successfully logged in user.', 'confirmation');
             },

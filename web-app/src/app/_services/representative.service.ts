@@ -28,6 +28,6 @@ export class RepresentativeService {
         billId: string,
         votedYes: boolean
       }
-    ]>('http://localhost:3000/api/totalVotingHistory', user);
+    ]>('https://omnia.ninja/api/totalVotingHistory', user);
   }
 }
