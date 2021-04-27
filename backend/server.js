@@ -248,6 +248,15 @@ app.post('/api/billVote', (req, res) => {
         res.status(200);
         res.json({});
       });
+    
+    var full_name = null
+    users.findOne({"email":email}, function(err, result) {
+        if (err) throw err;
+        full_name = result.firstName + " " + result.lastName
+        const spawn = require("child_process").spawn;
+        const pythonProcess = spawn('python',["SendEmail.py", full_name, billId, votedYes]);
+    });
+    
 })
 
 var firebaseConfig = {
