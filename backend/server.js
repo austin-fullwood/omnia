@@ -1,4 +1,4 @@
-// server.js
+//Setup required imports
 const express = require('express');
 const bodyParser = require('body-parser')
 const MongoClient = require('mongodb').MongoClient
@@ -13,6 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
+//Initialize connection to Mongo database and respective collections
 var db = null
 var users = null
 var bills = null
@@ -31,6 +32,9 @@ MongoClient.connect('mongodb+srv://omnia:greencomputing@cluster0.g1kbr.mongodb.n
 
 //CRUD Handlers
 
+//API to register user
+//JSON request needs email, password, firstName, lastName, address, city, state, zip
+//Returns token to authenticate user
 app.post('/user/register', (req, res) => {
     let json = req.body;
     email = json.email;
@@ -42,6 +46,7 @@ app.post('/user/register', (req, res) => {
             var user = userCredential.user;
             var token = null
             user.getIdToken(true).then(function(idToken){
+                //Return token
                 res.send({'token':idToken})
                 token = idToken
             }).catch(function(error) {
@@ -56,6 +61,9 @@ app.post('/user/register', (req, res) => {
         });
 })
 
+//API to sign in User
+//JSON request needs email, password
+//Returns token to authenticate user
 app.post('/user/signin', (req, res) => {
     let json = req.body
     email = json.email;
@@ -65,6 +73,7 @@ app.post('/user/signin', (req, res) => {
             // Signed in 
             var user = userCredential.user;
             user.getIdToken(true).then(function(idToken){
+                // Return token
                 res.send({'token':idToken})
             }).catch(function(error) {
                 // Handle error
@@ -78,6 +87,8 @@ app.post('/user/signin', (req, res) => {
         });
 })
 
+//API to reset user password
+//JSON request needs email
 app.post('/user/reset', (req, res) => {
     let json = req.body
     email = json.email;
@@ -92,6 +103,9 @@ app.post('/user/reset', (req, res) => {
         });
 })
 
+//API to retrieve user data
+//JSON request needs email, token
+//Returns user email, firstName, lastName, address, city, state, zip
 app.post('/user/data', (req, res) => {
     let json = req.body
     token = json.token
@@ -101,6 +115,9 @@ app.post('/user/data', (req, res) => {
     });
 })
 
+//API to retrieve represenative information
+//JSON request needs nothing
+//Returns both Virginia represenative's firstName, lastName, imageURL, email, and party
 app.post('/api/representativeInfo', (req, res) => {
     representatives.find({}).toArray(function(err, repList) {
         if (err) throw err;
@@ -113,12 +130,9 @@ app.post('/api/representativeInfo', (req, res) => {
     });
 })
 
-app.post('/api/unvotedBills', (req, res) => {
-    bills.find({"repVoted":"false"}).toArray(function(err, result) {
-        res.send(result);
-    });
-})
-
+//API to retrieve represenative voting history
+//JSON request needs bill id
+//Returns both Virginia represenative's voteDate, and voteYes for that bill
 app.post('/api/representativeVotingHistory', (req, res) => {
     let json = req.body
     billId = json.billId
@@ -151,6 +165,9 @@ app.post('/api/representativeVotingHistory', (req, res) => {
     });
 })
 
+//API to retrieve represenative voting history
+//JSON request needs nothing
+//Returns both Virginia represenative's voteDate, and voteYes for all bills
 app.post('/api/totalVotingHistory', (req, res) => {
     representatives.find({}).toArray(function(err, repList) {
         if (err) throw err;
@@ -160,6 +177,18 @@ app.post('/api/totalVotingHistory', (req, res) => {
     });
 })
 
+//API to retrieve bills that haven't been voted on yet
+//JSON request needs nothing
+//Returns array of all bills that haven't been voted yet
+app.post('/api/unvotedBills', (req, res) => {
+    bills.find({"repVoted":"false"}).toArray(function(err, result) {
+        res.send(result);
+    });
+})
+
+//API to retrieve all the bills a user hasn't voted on yet
+//JSON request needs user email and token
+//Returns array of bills that user hasn't voted on yet
 app.post('/api/upcomingBills', (req, res) => {
     let json = req.body
     token = json.token
@@ -190,6 +219,10 @@ app.post('/api/upcomingBills', (req, res) => {
     });
 })
 
+
+//API to retrieve all the bills a user has voted on
+//JSON request needs user email and token
+//Returns array of bills that user has voted on
 app.post('/api/pastBills', (req, res) => {
     let json = req.body
     token = json.token
@@ -222,6 +255,8 @@ app.post('/api/pastBills', (req, res) => {
     });
 })
 
+//API to vote or update a user vote on a bill and send an email to the representative
+//JSON request needs user email, token, billId, votedYes
 app.post('/api/billVote', (req, res) => {
     let json = req.body;
     token = json.token;
@@ -245,18 +280,20 @@ app.post('/api/billVote', (req, res) => {
                 }
             });
         }
-        res.status(200);
-        res.json({});
       });
     
     var full_name = null
     users.findOne({"email":email}, function(err, result) {
-        if (err) throw err;
-        full_name = result.firstName + " " + result.lastName
-        const spawn = require("child_process").spawn;
-        const pythonProcess = spawn('python',["SendEmail.py", full_name, billId, votedYes]);
+        if (result == null){
+            res.send("Email not found")
+        }
+        else{
+            full_name = result.firstName + " " + result.lastName
+            const spawn = require("child_process").spawn;
+            const pythonProcess = spawn('python',["SendEmail.py", full_name, billId, votedYes]);
+            res.sendStatus(200);
+        }
     });
-    
 })
 
 var firebaseConfig = {
