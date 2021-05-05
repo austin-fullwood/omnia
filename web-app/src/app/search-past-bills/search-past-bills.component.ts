@@ -7,6 +7,9 @@ import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {Representative} from '../_models/representative';
 import {RepresentativeService} from '../_services/representative.service';
 
+/**
+ * Displays a list of past bills and allows for searching.
+ */
 @Component({
   selector: 'app-search-past-bills',
   templateUrl: './search-past-bills.component.html',
@@ -14,6 +17,9 @@ import {RepresentativeService} from '../_services/representative.service';
 })
 export class SearchPastBillsComponent implements OnInit {
 
+  /**
+   * Facilitates communication to the html code.
+   */
   public searchText = '';
   public currentBills: Bill[] | undefined;
   public searchedBills: Bill[] | undefined;
@@ -25,6 +31,13 @@ export class SearchPastBillsComponent implements OnInit {
   // @ts-ignore
   @ViewChild('paginator') paginator: MatPaginator;
 
+  /**
+   * Subscribes to past bills and initializes the bills arrays.
+   * @param billService   bill service
+   * @param userService   user service
+   * @param notifService  notification service
+   * @param repService    representative service
+   */
   constructor(private billService: BillService,
               private userService: UserService,
               private notifService: NotificationService,
@@ -41,6 +54,9 @@ export class SearchPastBillsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * Gets the representatives' information.
+   */
   private getReps(): void {
     this.repService.getRepresentatives(this.userService.currentUserValue).subscribe(
       reps => {
@@ -52,6 +68,10 @@ export class SearchPastBillsComponent implements OnInit {
     );
   }
 
+  /**
+   * Getter for the first representative.
+   * @return  the first representative
+   */
   public getFirstRep(): Representative {
     if (this.reps === undefined) {
       return new Representative();
@@ -60,6 +80,10 @@ export class SearchPastBillsComponent implements OnInit {
     return this.reps[0];
   }
 
+  /**
+   * Getter for the second representative.
+   * @return  the second representative.
+   */
   public getSecondRep(): Representative {
     if (this.reps === undefined) {
       return new Representative();
@@ -68,6 +92,10 @@ export class SearchPastBillsComponent implements OnInit {
     return this.reps[1];
   }
 
+  /**
+   * Searches the past bills for the text from the search bar
+   * and filters out an bill whose title doesn't match the text.
+   */
   public search(): void {
     this.searchedBills = this.allBills?.filter(bill => {
       if (bill.short_title === undefined) {
@@ -80,6 +108,11 @@ export class SearchPastBillsComponent implements OnInit {
     this.paginator.firstPage();
   }
 
+  /**
+   * Changes the bills that are displayed when the user wants to see
+   * the next 10 bills.
+   * @param $event  object thrown by a PageEvent
+   */
   public changePage($event: PageEvent): void {
     this.currentBills = this.searchedBills?.slice((10 * $event.pageIndex), (10 * ($event.pageIndex + 1)));
   }

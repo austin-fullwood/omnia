@@ -5,6 +5,9 @@ import {UserService} from '../_services/user.service';
 import {NotificationService} from '../_services/notification.service';
 import {BillService} from '../_services/bill.service';
 
+/**
+ * Displays a list of rep's for the user.
+ */
 @Component({
   selector: 'app-representatives',
   templateUrl: './representatives.component.html',
@@ -12,8 +15,18 @@ import {BillService} from '../_services/bill.service';
 })
 export class RepresentativesComponent implements OnInit {
 
+  /**
+   * A list of reps.
+   */
   public reps: Representative[] | undefined;
 
+  /**
+   * Initializes the reps and gathers their voting information.
+   * @param repService    Representative service
+   * @param userService   user service
+   * @param notifService  notification service
+   * @param billService   bill service
+   */
   constructor(private repService: RepresentativeService,
               private userService: UserService,
               private notifService: NotificationService,
@@ -56,6 +69,9 @@ export class RepresentativesComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * Gets the representatives information.
+   */
   public getRepresentatives(): void {
     this.repService.getRepresentatives(this.userService.currentUserValue).subscribe(
       repData => {

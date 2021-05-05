@@ -4,6 +4,9 @@ import {BillService} from '../_services/bill.service';
 import {UserService} from '../_services/user.service';
 import {NotificationService} from '../_services/notification.service';
 
+/**
+ * Displays the upcoming bills to the user.
+ */
 @Component({
   selector: 'app-upcoming-bills',
   templateUrl: './upcoming-bills.component.html',
@@ -14,6 +17,13 @@ export class UpcomingBillsComponent implements OnInit {
   public bills: Bill[] | undefined;
   public currentBill = new Bill();
 
+  /**
+   * Gathers the upcoming bills.
+   *
+   * @param userService   user service
+   * @param billService   bill service
+   * @param notifService  notification service
+   */
   constructor(private userService: UserService,
               private billService: BillService,
               private notifService: NotificationService) {
@@ -23,6 +33,11 @@ export class UpcomingBillsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * Sets the vote of the current bill.
+   *
+   * @param votedYes  vote of the current bill.
+   */
   public voteForCurrentBill(votedYes: boolean): void {
     if (!this.currentBill.bill_id) {
       this.notifService.showNotif('Could not register vote for current bill', 'error', 2000);
@@ -52,6 +67,9 @@ export class UpcomingBillsComponent implements OnInit {
       );
   }
 
+  /**
+   * Getter method for the upcoming bills.
+   */
   private getUpcomingBills(): void {
     this.billService.getUpcomingBills(this.userService.currentUserValue).subscribe(
       data => {
@@ -64,6 +82,11 @@ export class UpcomingBillsComponent implements OnInit {
     );
   }
 
+  /**
+   * Tells if there are any more upcoming bills.
+   *
+   * @return  true if there are no more upcoming bills
+   */
   public noUpcomingBills(): boolean {
     if (!this.bills) {
       return true;

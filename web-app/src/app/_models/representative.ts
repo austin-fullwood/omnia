@@ -1,3 +1,6 @@
+/**
+ * Represents a senator
+ */
 export class Representative {
   // tslint:disable-next-line:variable-name
   _id?: string;

@@ -1,5 +1,8 @@
 import { Bill } from './bill';
 
+/**
+ * Holds user information
+ */
 export class User {
   public firstName?: string;
   public lastName?: string;

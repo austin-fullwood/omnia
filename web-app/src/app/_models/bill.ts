@@ -1,3 +1,6 @@
+/**
+ * Represents a federal bill
+ */
 export class Bill {
   // tslint:disable-next-line:variable-name
   bill_id?: string;

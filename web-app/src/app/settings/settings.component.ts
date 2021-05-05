@@ -7,6 +7,11 @@ import {first} from 'rxjs/operators';
 import {User} from '../_models/user';
 import {DOCUMENT} from '@angular/common';
 
+/**
+ * Enables a user to change their settings.
+ *
+ * (Not currently used in web app).
+ */
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -30,6 +35,15 @@ export class SettingsComponent implements OnInit {
   public hidePassword = true;
   public hideConfirmPassword = true;
 
+  /**
+   * Gets the current user and initializes the form group.
+   *
+   * @param userService   user service
+   * @param router        router component
+   * @param formBuilder   form builder
+   * @param notifService  notification service
+   * @param document      document component
+   */
   constructor(private userService: UserService,
               private router: Router,
               private formBuilder: FormBuilder,
@@ -52,6 +66,11 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * Checks that the actual password matches the confirmed password.
+   *
+   * @param group   the form group of the settings input
+   */
   private checkPasswords(group: FormGroup): any {
     const groupPassword = group.get('password');
     const groupConfirmPassword = group.get('confirmPassword');
@@ -62,30 +81,51 @@ export class SettingsComponent implements OnInit {
     return groupPassword.value === groupConfirmPassword.value ? null : {notSame: true};
   }
 
+  /**
+   * Getter method for the form group.
+   */
   get f(): any {
     return this.registerForm.controls;
   }
 
-  public onSubmit(): void {
-    console.log('submit');
-  }
-
+  /**
+   * Logs a user out.
+   */
   public logout(): void {
     this.userService.logout();
     this.router.navigate(['/login']);
   }
 
+  /**
+   * Checks that a user is logged in.
+   */
   public userLoggedIn(): boolean {
     return this.userService.isLoggedIn();
   }
 
+  /**
+   * Changes a user's password.
+   */
   public changePassword(): void {
-    this.changePasswordHintRed = false;
-    this.changePasswordHint = 'An email has been sent to your account.';
     this.disableChangePassword = true;
-    console.log('change password');
+    /*
+    this.userService.resetPassword(this.userService.currentUserValue).subscribe(
+      data => {
+        this.changePasswordHintRed = false;
+        this.changePasswordHint = 'An email has been sent to your account.';
+      },
+      err => {
+        this.changePasswordHintRed = true;
+        this.changePasswordHint = 'Could not change your password.';
+        this.disableChangePassword = false;
+      }
+    );
+    */
   }
 
+  /**
+   * Called when the user submits their changes.
+   */
   public saveChanges(): void {
     this.errorRed = false;
     this.error = 'Changes have been saved.';

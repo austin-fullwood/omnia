@@ -19,7 +19,11 @@ import { PastBillDetailsDialogComponent } from './past-bill-details-dialog/past-
 import { RepresentativeComponent } from './representative/representative.component';
 import { RepresentativesComponent } from './representatives/representatives.component';
 import { SettingsComponent } from './settings/settings.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
+/**
+ * Contains all of the used classes and enables them to be used by other classes.
+ */
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +36,8 @@ import { SettingsComponent } from './settings/settings.component';
     PastBillDetailsDialogComponent,
     RepresentativeComponent,
     RepresentativesComponent,
-    SettingsComponent
+    SettingsComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,
