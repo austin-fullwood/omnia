@@ -5,6 +5,9 @@ import {first} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
+/**
+ * Component for logging a user in.
+ */
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -12,7 +15,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
-  public registerForm = this.formBuilder.group({
+  public loginForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required]
   });
@@ -22,6 +25,13 @@ export class LoginComponent implements OnInit {
 
   public hidePassword = true;
 
+  /**
+   * Checks if a user is logged in and redirects them if they are.
+   * @param notif         notification service
+   * @param formBuilder   form builder
+   * @param authService   authentication service
+   * @param router        router service.
+   */
   constructor(private notif: NotificationService,
               private formBuilder: FormBuilder,
               private authService: UserService,
@@ -34,19 +44,27 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * Getter for the form field
+   * @return  the login form field
+   */
   get f(): any {
-    return this.registerForm.controls;
+    return this.loginForm.controls;
   }
 
+  /**
+   * Checks that the login information is correct and logs
+   * the user in.
+   */
   public onSubmit(): void {
     this.submitted = true;
     this.error = '';
-    if (this.registerForm.invalid) {
+    if (this.loginForm.invalid) {
       return;
     }
 
-    const registerFormEmail = this.registerForm.get('email');
-    const registerFormPassword = this.registerForm.get('password');
+    const registerFormEmail = this.loginForm.get('email');
+    const registerFormPassword = this.loginForm.get('password');
     if (registerFormEmail === null || registerFormPassword === null) {
       return;
     }

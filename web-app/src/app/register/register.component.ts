@@ -5,6 +5,9 @@ import {UserService} from '../_services/user.service';
 import {Router} from '@angular/router';
 import {first} from 'rxjs/operators';
 
+/**
+ * Registers a new user.
+ */
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -12,6 +15,9 @@ import {first} from 'rxjs/operators';
 })
 export class RegisterComponent implements OnInit {
 
+  /**
+   * Form group for ensuring the user information is valid.
+   */
   public registerForm = this.formBuilder.group({
     firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
     lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
@@ -26,6 +32,9 @@ export class RegisterComponent implements OnInit {
     validators: this.checkPasswords
   });
 
+  /**
+   * Variables facilitate communication to html.
+   */
   public submitted = false;
   public loading = false;
   public error = '';
@@ -33,6 +42,13 @@ export class RegisterComponent implements OnInit {
   public hidePassword = true;
   public hideConfirmPassword = true;
 
+  /**
+   * Checks if the user is logged in and if they are redirects them.
+   * @param notif       notification service
+   * @param formBuilder form builder
+   * @param authService authentication service
+   * @param router      router component
+   */
   constructor(private notif: NotificationService,
               private formBuilder: FormBuilder,
               private authService: UserService,
@@ -46,6 +62,11 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * Helper method for checking if the confirmed password matches
+   * the real password.
+   * @param group   The form group of the html form.
+   */
   private checkPasswords(group: FormGroup): any {
     const groupPassword = group.get('password');
     const groupConfirmPassword = group.get('confirmPassword');
@@ -56,10 +77,17 @@ export class RegisterComponent implements OnInit {
     return groupPassword.value === groupConfirmPassword.value ? null : {notSame: true};
   }
 
+  /**
+   * Getter method for the form field.
+   */
   get f(): any {
     return this.registerForm.controls;
   }
 
+  /**
+   * Checks that the information is valid and registers the user
+   * if it is.
+   */
   public onSubmit(): void {
     this.submitted = true;
     this.error = '';

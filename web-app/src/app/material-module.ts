@@ -41,6 +41,10 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 
+/**
+ * Helps the app.module component in gathering angular material
+ * classes.
+ */
 @NgModule({
   exports: [
     A11yModule,

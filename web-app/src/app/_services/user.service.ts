@@ -5,6 +5,9 @@ import { User } from '../_models/user';
 import { HttpClient } from '@angular/common/http';
 import {map} from 'rxjs/operators';
 
+/**
+ * Handles user information between the web app and the server.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -13,6 +16,10 @@ export class UserService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
+  /**
+   * Checks for a user saved to the local storage.
+   * @param http  HTTP service
+   */
   constructor(private http: HttpClient) {
     const localCurrentUser = localStorage.getItem('currentUser');
     if (localCurrentUser !== null) {
@@ -24,10 +31,19 @@ export class UserService {
     }
   }
 
+  /**
+   * Gets the current user
+   * @return  the current user object.
+   */
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
 
+  /**
+   * Logs a user into the web app.
+   * @param email     email of the user.
+   * @param password  password of the user.
+   */
   public login(email: string, password: string): Observable<any> {
     return this.http.post<any>('https://omnia.ninja/user/signin', { email, password })
       .pipe(map(data => {
@@ -48,11 +64,18 @@ export class UserService {
       }));
   }
 
+  /**
+   * Logs the current user out of the web app.
+   */
   public logout(): void {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(new User());
   }
 
+  /**
+   * Registers a new user with the server.
+   * @param user  the new user to be registered.
+   */
   public register(user: User): Observable<any> {
     return this.http.post<User>('https://omnia.ninja/user/register', user)
       .pipe(map(data => {
@@ -66,6 +89,10 @@ export class UserService {
      }));
   }
 
+  /**
+   * Gets the information for a particular user.
+   * @param user  user object with an email and token.
+   */
   public getUser(user: User): Observable<any> {
     return this.http.post<User>('https://omnia.ninja/user/data', user)
       .pipe(map(data => {
@@ -95,7 +122,18 @@ export class UserService {
       }));
   }
 
+  /**
+   * Checks if a user is currently logged in.
+   */
   public isLoggedIn(): boolean {
     return this.currentUserValue.token !== undefined;
+  }
+
+  /**
+   * Resets the password for a user.
+   * @param email   the email of the user whose password needs to be reset.
+   */
+  public resetPassword(email: string): Observable<string> {
+    return this.http.post<string>('https://omnia.ninja/user/reset', email);
   }
 }

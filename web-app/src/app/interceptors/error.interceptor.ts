@@ -5,11 +5,19 @@ import {UserService} from '../_services/user.service';
 import {catchError} from 'rxjs/operators';
 import {NotificationService} from '../_services/notification.service';
 
+/**
+ * Handles HTTP errors.
+ */
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
   constructor(private authenticationService: UserService, private notif: NotificationService) {}
 
+  /**
+   * Intercepts http responses and handles an errors if they exists.
+   * @param request   the http request.
+   * @param next      the next http handler.
+   */
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(catchError(err => {
       if ([401, 403].indexOf(err.status) !== -1) {
